@@ -1,13 +1,15 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement style="min-width: 100%; min-height: 100%; flex-direction: column;">
         <ui:VisualElement name="TopPanel" style="min-width: 100%; max-height: 30%; flex-direction: row;">
-            <ui:Label text="Popularity: " display-tooltip-when-elided="true" name="Popularity_Label" style="height: 20px; width: 79px; min-width: 25%; max-height: 100%; min-height: 100%;" />
-            <ui:Label text="0" display-tooltip-when-elided="true" name="Popularity_Value" style="min-width: 25%;" />
-            <ui:Label text="Stability:" display-tooltip-when-elided="true" name="Stability_Label" style="min-width: 25%;" />
-            <ui:Label text="0" display-tooltip-when-elided="true" name="Stability_Value" style="min-width: 25%;" />
+            <ui:Label text="Instability: " display-tooltip-when-elided="true" name="inestability_label" style="height: 20px; width: 79px; min-width: 25%; max-height: 100%; min-height: 100%; font-size: 45%;" />
+            <ui:Label text="0" display-tooltip-when-elided="true" name="inestability_value" style="min-width: 25%; font-size: 45%;" />
+            <ui:Label text="Popularity" display-tooltip-when-elided="true" name="popularity_label" style="min-width: 25%; font-size: 45%;" />
+            <ui:Label text="0" display-tooltip-when-elided="true" name="popularity_value" style="min-width: 25%; font-size: 45%;" />
         </ui:VisualElement>
-        <ui:VisualElement name="BottomPanel" style="min-width: 100%; max-height: 70%; flex-direction: column-reverse; min-height: 70%;">
-            <ui:Button text="Send" display-tooltip-when-elided="true" name="SendButton" />
+        <ui:VisualElement name="BottomPanel" style="min-width: 100%; max-height: 70%; flex-direction: row; min-height: 70%; align-items: auto; justify-content: space-between;">
+            <ui:Button text="Refuse" display-tooltip-when-elided="true" name="RefuseButton" style="font-size: 45%; max-width: 50%;" />
+            <ui:Button text="Send" display-tooltip-when-elided="true" name="SendButton" style="font-size: 45%; max-width: 50%;" />
+            <ui:Button text="NextTitle" display-tooltip-when-elided="true" name="NextTitle" style="font-size: 45%; max-width: 50%;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
