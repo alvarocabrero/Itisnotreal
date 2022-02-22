@@ -45,7 +45,8 @@ public class ElementManager : MonoBehaviour
 
         if (int.Parse(popularity_value.text) + popularityFinalValue <= 0)
             popularity_value.text = "0";
-        popularity_value.text = (int.Parse(popularity_value.text) + popularityFinalValue).ToString();
+        else
+            popularity_value.text = (int.Parse(popularity_value.text) + popularityFinalValue).ToString();
 
         int instabilityBaseValue = headings[selectedHeading].instability + subheadings[selectedSubheading].instability + photos[selectedPhoto].instability;
         double instabilityMultipliedValue = instabilityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
