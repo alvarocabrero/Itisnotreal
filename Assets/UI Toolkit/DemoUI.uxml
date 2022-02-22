@@ -4,15 +4,12 @@
             <ui:Label text="Instability: " display-tooltip-when-elided="true" name="instability_label" style="height: auto; width: auto; min-width: 25%; max-height: 100%; min-height: 100%; font-size: 45%; -unity-text-align: middle-center; -unity-text-outline-color: rgb(255, 255, 255); color: rgb(255, 255, 255);" />
             <ui:Label text="0" display-tooltip-when-elided="true" name="instability_value" style="min-width: 8%; font-size: 45%; -unity-text-align: upper-center; color: rgb(255, 255, 255);" />
             <ui:Label text="%" display-tooltip-when-elided="true" name="instability_percent" style="min-width: auto; font-size: 45%; width: 25%; color: rgb(255, 255, 255);" />
-            <ui:Label text="Popularity:" display-tooltip-when-elided="true" name="popularity_label" style="min-width: 13%; font-size: 45%; white-space: nowrap; left: auto; -unity-text-align: middle-left; justify-content: flex-start; align-items: stretch; right: auto; color: rgba(255, 255, 255, 255);" />
-            <ui:Label text="0" display-tooltip-when-elided="true" name="popularity_value" style="min-width: 15%; font-size: 45%; -unity-text-align: middle-center; white-space: nowrap; align-items: center; right: auto; left: auto; justify-content: space-between; color: rgba(255, 255, 255, 255);" />
+            <ui:Label text="Popularity:" display-tooltip-when-elided="true" name="popularity_label" style="min-width: 13%; font-size: 45%; white-space: nowrap; left: auto; -unity-text-align: middle-left; justify-content: flex-start; align-items: stretch; right: auto; color: rgb(255, 255, 255);" />
+            <ui:Label text="0" display-tooltip-when-elided="true" name="popularity_value" style="min-width: 15%; font-size: 45%; -unity-text-align: middle-center; white-space: nowrap; align-items: center; right: auto; left: auto; justify-content: space-between; color: rgb(255, 255, 255);" />
         </ui:VisualElement>
         <ui:VisualElement name="MainPanel" style="height: 80%;" />
-        <ui:VisualElement name="BottomPanel" style="min-width: auto; max-height: none; flex-direction: row; min-height: auto; align-items: center; justify-content: space-around; bottom: auto; width: auto;">
-            <ui:Button text="Heading" display-tooltip-when-elided="true" name="HeadingButton" style="font-size: 45%; max-width: 50%;" />
-            <ui:Button text="Subheading" display-tooltip-when-elided="true" name="SubheadingButton" style="font-size: 45%; max-width: 50%;" />
-            <ui:Button text="Photo" display-tooltip-when-elided="true" name="PhotoButton" style="font-size: 45%; max-width: 50%;" />
-            <ui:Button text="SEND" display-tooltip-when-elided="true" name="SendButton" style="font-size: 57%; max-width: 50%; -unity-font-style: bold;" />
+        <ui:VisualElement name="BottomPanel" style="min-width: auto; max-height: none; flex-direction: row-reverse; min-height: auto; align-items: center; justify-content: flex-start; bottom: auto; width: auto;">
+            <ui:Button text="SEND" display-tooltip-when-elided="true" name="SendButton" style="font-size: 57%; max-width: 50%; -unity-font-style: bold; -unity-text-align: middle-center; margin-right: 22px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

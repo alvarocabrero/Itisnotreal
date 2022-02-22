@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -31,10 +30,6 @@ public class ElementManager : MonoBehaviour
 
         var uiDocument = GameObject.Find("UIDocument").GetComponent<UIDocument>().rootVisualElement;
 
-        uiDocument.Q<Button>("HeadingButton").clicked += delegate { NextHeading(); };
-        uiDocument.Q<Button>("SubheadingButton").clicked += delegate { NextSubheading(); };
-        uiDocument.Q<Button>("PhotoButton").clicked += delegate { NextPhoto(); };
-
         uiDocument.Q<Button>("SendButton").clicked += delegate { SendPoints(); };
 
         popularity_value = uiDocument.Q<Label>("popularity_value");
@@ -56,7 +51,7 @@ public class ElementManager : MonoBehaviour
         double instabilityMultipliedValue = instabilityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
         int instabilityFinalValue = (int)instabilityMultipliedValue;
 
-        UnityEngine.Debug.Log(instabilityFinalValue);
+        Debug.Log(instabilityFinalValue);
 
         if (int.Parse(instability_value.text) + instabilityFinalValue <= 0)
             instability_value.text = "0";
@@ -89,44 +84,35 @@ public class ElementManager : MonoBehaviour
         photos.Add(new ImageElement(PHOTO_VALUES.STIRRER_POPULARITY, PHOTO_VALUES.STIRRER_INSTABILITY, CATEGORY_MULTIPLIERS.STIRRER_PHOTO));
     }
 
-    public void NextHeading()
+    public int NextElement(List<GameObject> list, SpriteRenderer renderer, ref int selectedElement)
     {
-        if (selectedHeading + 1 < headingSprites.Count)
+        if (selectedElement + 1 < list.Count)
         {
-            selectedHeading += 1;
+            selectedElement += 1;
         }
         else
-            selectedHeading = 0;
-        headingSpriteR.sprite = headingSprites[selectedHeading].GetComponent<SpriteRenderer>().sprite;
+            selectedElement = 0;
+        renderer.sprite = list[selectedElement].GetComponent<SpriteRenderer>().sprite;
+        return selectedElement;
+    }
 
+    public void NextHeading()
+    {
+        NextElement(headingSprites, headingSpriteR, ref selectedHeading);
     }
 
     public void NextSubheading()
     {
-        if (selectedSubheading + 1 < subheadingSprites.Count)
-        {
-            selectedSubheading += 1;
-        }
-        else
-            selectedSubheading = 0;
-        subheadingSpriteR.sprite = subheadingSprites[selectedSubheading].GetComponent<SpriteRenderer>().sprite;
+        NextElement(subheadingSprites, subheadingSpriteR, ref selectedSubheading);
     }
 
     public void NextPhoto()
     {
-        if (selectedPhoto + 1 < photoSprites.Count)
-        {
-            selectedPhoto += 1;
-        }
-        else
-            selectedPhoto = 0;
-        photoSpriteR.sprite = photoSprites[selectedPhoto].GetComponent<SpriteRenderer>().sprite;
-
+        NextElement(photoSprites, photoSpriteR, ref selectedPhoto);
     }
 
     // Update is called once per frame
     void Update()
     {
-
     }
 }
