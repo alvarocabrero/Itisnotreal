@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Element
+public class Element
 {
     public int popularity { get; set; }
     public int instability { get; set; }
@@ -15,25 +15,6 @@ public abstract class Element
     }
 
 }
-
-public class TextElement : Element
-{
-    public string text_value { get; set; }
-
-    public TextElement(int popularity, int instability, double multiplier, string text_value) : base(popularity, instability, multiplier)
-    {
-        this.text_value = text_value;
-    }
-}
-
-public class ImageElement : Element
-{
-    public ImageElement(int popularity, int instability, double multiplier) : base(popularity, instability, multiplier)
-    {
-
-    }
-}
-
 
 public static class CATEGORIES
 {
@@ -130,3 +111,4 @@ public static class CATEGORY_MULTIPLIERS
     public static double STIRRER_PHOTO = 0.2;
     public static double INCENDIARY_PHOTO = 0.4;
 }
+
