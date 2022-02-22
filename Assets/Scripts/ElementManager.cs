@@ -79,7 +79,7 @@ public class ElementManager : MonoBehaviour
         //headings
         for (int i = 0; i < TITLE_VALUES.POPULARITIES.Length; i++)
         {
-            //Hay que meterlos siempre en orden en elementos pero bueno es una solucion a no tener pila adds
+            //Hay que meterlos siempre en orden en elementos y siempre tener el mismo numero pero bueno es una solucion a no tener pila adds
             //headings
             headings.Add(new Element(TITLE_VALUES.POPULARITIES[i], TITLE_VALUES.INSTABILITY[i], TITLE_VALUES.MULTIPLIERS[i]));
             //subheadings
