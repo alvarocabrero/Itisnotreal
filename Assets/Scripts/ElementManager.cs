@@ -1,69 +1,126 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ElementManager : MonoBehaviour
 {
 
-    private static int NUM_ELEMENTOS = 1;
+    //private static int NUM_ELEMENTOS = 1;
 
-    private List<ImageElement> imagenes = new List<ImageElement>();
-    private List<TextElement> subtitulos = new List<TextElement>();
-    private List<TextElement> titulos = new List<TextElement>();
+    private List<ImageElement> photos = new List<ImageElement>();
+    private List<TextElement> subheadings = new List<TextElement>();
+    private List<TextElement> headings = new List<TextElement>();
 
-    private int selectedTitle = 0;
+    private int selectedHeading = 0;
+    private int selectedSubheading = 0;
+    private int selectedPhoto = 0;
 
-    private SpriteRenderer sprite;
+    public SpriteRenderer headingSpriteR, subheadingSpriteR, photoSpriteR;
 
-    public List<GameObject> sprites = new List<GameObject>();
+    public List<GameObject> headingSprites, subheadingSprites, photoSprites = new List<GameObject>();
 
     private Label popularity_value;
-    private Label inestability_value;
+    private Label instability_value;
     // Start is called before the first frame update
     void Start()
     {
         InitElements();
-        sprite = GetComponent<SpriteRenderer>();
 
         var uiDocument = GameObject.Find("UIDocument").GetComponent<UIDocument>().rootVisualElement;
 
-        uiDocument.Q<Button>("NextTitle").clicked += delegate { NextTitle(); };
+        uiDocument.Q<Button>("HeadingButton").clicked += delegate { NextHeading(); };
+        uiDocument.Q<Button>("SubheadingButton").clicked += delegate { NextSubheading(); };
+        uiDocument.Q<Button>("PhotoButton").clicked += delegate { NextPhoto(); };
+
         uiDocument.Q<Button>("SendButton").clicked += delegate { SendPoints(); };
 
         popularity_value = uiDocument.Q<Label>("popularity_value");
-        inestability_value = uiDocument.Q<Label>("inestability_value");
+        instability_value = uiDocument.Q<Label>("instability_value");
     }
 
     public void SendPoints()
     {
-        popularity_value.text = (int.Parse(popularity_value.text) + titulos[selectedTitle].popularity).ToString();
-        inestability_value.text = (int.Parse(inestability_value.text) + titulos[selectedTitle].inestability).ToString();
+        int popularityBaseValue = headings[selectedHeading].popularity + subheadings[selectedSubheading].popularity + photos[selectedPhoto].popularity;
+        double popularityMultipliedValue = popularityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
+        int popularityFinalValue = (int)popularityMultipliedValue;
+
+
+        if (int.Parse(popularity_value.text) + popularityFinalValue <= 0)
+            popularity_value.text = "0";
+        popularity_value.text = (int.Parse(popularity_value.text) + popularityFinalValue).ToString();
+
+        int instabilityBaseValue = headings[selectedHeading].instability + subheadings[selectedSubheading].instability + photos[selectedPhoto].instability;
+        double instabilityMultipliedValue = instabilityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
+        int instabilityFinalValue = (int)instabilityMultipliedValue;
+
+        UnityEngine.Debug.Log(instabilityFinalValue);
+
+        if (int.Parse(instability_value.text) + instabilityFinalValue <= 0)
+            instability_value.text = "0";
+        else if (int.Parse(instability_value.text) + instabilityFinalValue >= 100)
+            instability_value.text = "100";
+        else
+            instability_value.text = (int.Parse(instability_value.text) + instabilityFinalValue).ToString();
+
     }
 
     private void InitElements()
     {
-        //TITULOS
-        titulos.Add(new TextElement(TITLE_VALUES.BORING_POPULARITY, TITLE_VALUES.BORING_INESTABILITY, CATEGORIAS.BORING));
-        titulos.Add(new TextElement(TITLE_VALUES.CONSERVATIVE_POPULARITY, TITLE_VALUES.CONSERVATIVE_INESTABILITY, CATEGORIAS.CONSERVATIVE));
-        titulos.Add(new TextElement(TITLE_VALUES.NEUTRAL_POPULARITY, 244, CATEGORIAS.NEUTRAL));
-        titulos.Add(new TextElement(TITLE_VALUES.INCENDIARY_POPULARITY, TITLE_VALUES.INCENDIARY_INESTABILITY, CATEGORIAS.INCENDIARY));
-        titulos.Add(new TextElement(TITLE_VALUES.STIRRER_POPULARITY, TITLE_VALUES.STIRRER_INESTABILITY, CATEGORIAS.STIRRER));
+        //headings
+        headings.Add(new TextElement(TITLE_VALUES.BORING_POPULARITY, TITLE_VALUES.BORING_INSTABILITY, CATEGORY_MULTIPLIERS.BORING_HEADING, CATEGORIES.BORING));
+        headings.Add(new TextElement(TITLE_VALUES.CONSERVATIVE_POPULARITY, TITLE_VALUES.CONSERVATIVE_INSTABILITY, CATEGORY_MULTIPLIERS.CONSERVATIVE_HEADING, CATEGORIES.CONSERVATIVE));
+        headings.Add(new TextElement(TITLE_VALUES.NEUTRAL_POPULARITY, TITLE_VALUES.NEUTRAL_INSTABILITY_LIMIT_A, CATEGORY_MULTIPLIERS.NEUTRAL_HEADING, CATEGORIES.NEUTRAL));
+        headings.Add(new TextElement(TITLE_VALUES.INCENDIARY_POPULARITY, TITLE_VALUES.INCENDIARY_INSTABILITY, CATEGORY_MULTIPLIERS.INCENDIARY_HEADING, CATEGORIES.INCENDIARY));
+        headings.Add(new TextElement(TITLE_VALUES.STIRRER_POPULARITY, TITLE_VALUES.STIRRER_INSTABILITY, CATEGORY_MULTIPLIERS.STIRRER_HEADING, CATEGORIES.STIRRER));
+
+        subheadings.Add(new TextElement(SUBHEADINGS_VALUES.BORING_POPULARITY, SUBHEADINGS_VALUES.BORING_INSTABILITY, CATEGORY_MULTIPLIERS.BORING_SUBHEADING, CATEGORIES.BORING));
+        subheadings.Add(new TextElement(SUBHEADINGS_VALUES.CONSERVATIVE_POPULARITY, SUBHEADINGS_VALUES.CONSERVATIVE_INSTABILITY, CATEGORY_MULTIPLIERS.CONSERVATIVE_SUBHEADING, CATEGORIES.CONSERVATIVE));
+        subheadings.Add(new TextElement(SUBHEADINGS_VALUES.NEUTRAL_POPULARITY, SUBHEADINGS_VALUES.NEUTRAL_INSTABILITY_LIMIT_A, CATEGORY_MULTIPLIERS.NEUTRAL_SUBHEADING, CATEGORIES.NEUTRAL));
+        subheadings.Add(new TextElement(SUBHEADINGS_VALUES.INCENDIARY_POPULARITY, SUBHEADINGS_VALUES.INCENDIARY_INSTABILITY, CATEGORY_MULTIPLIERS.INCENDIARY_SUBHEADING, CATEGORIES.INCENDIARY));
+        subheadings.Add(new TextElement(SUBHEADINGS_VALUES.STIRRER_POPULARITY, SUBHEADINGS_VALUES.STIRRER_INSTABILITY, CATEGORY_MULTIPLIERS.STIRRER_SUBHEADING, CATEGORIES.STIRRER));
+
+        photos.Add(new ImageElement(PHOTO_VALUES.BORING_POPULARITY, PHOTO_VALUES.BORING_INSTABILITY, CATEGORY_MULTIPLIERS.BORING_PHOTO));
+        photos.Add(new ImageElement(PHOTO_VALUES.CONSERVATIVE_POPULARITY, PHOTO_VALUES.CONSERVATIVE_INSTABILITY, CATEGORY_MULTIPLIERS.CONSERVATIVE_PHOTO));
+        photos.Add(new ImageElement(PHOTO_VALUES.NEUTRAL_POPULARITY, PHOTO_VALUES.NEUTRAL_INSTABILITY_LIMIT_A, CATEGORY_MULTIPLIERS.NEUTRAL_PHOTO));
+        photos.Add(new ImageElement(PHOTO_VALUES.INCENDIARY_POPULARITY, PHOTO_VALUES.INCENDIARY_INSTABILITY, CATEGORY_MULTIPLIERS.INCENDIARY_HEADING));
+        photos.Add(new ImageElement(PHOTO_VALUES.STIRRER_POPULARITY, PHOTO_VALUES.STIRRER_INSTABILITY, CATEGORY_MULTIPLIERS.STIRRER_PHOTO));
+    }
+
+    public void NextHeading()
+    {
+        if (selectedHeading + 1 < headingSprites.Count)
+        {
+            selectedHeading += 1;
+        }
+        else
+            selectedHeading = 0;
+        headingSpriteR.sprite = headingSprites[selectedHeading].GetComponent<SpriteRenderer>().sprite;
 
     }
 
-    public void NextTitle()
+    public void NextSubheading()
     {
-        Debug.Log(sprites.Count);
-        Debug.Log(selectedTitle);
-        if (selectedTitle + 1 < sprites.Count)
+        if (selectedSubheading + 1 < subheadingSprites.Count)
         {
-            selectedTitle += 1;
+            selectedSubheading += 1;
         }
         else
-            selectedTitle = 0;
-        sprite.sprite = sprites[selectedTitle].GetComponent<SpriteRenderer>().sprite;
+            selectedSubheading = 0;
+        subheadingSpriteR.sprite = subheadingSprites[selectedSubheading].GetComponent<SpriteRenderer>().sprite;
+    }
+
+    public void NextPhoto()
+    {
+        if (selectedPhoto + 1 < photoSprites.Count)
+        {
+            selectedPhoto += 1;
+        }
+        else
+            selectedPhoto = 0;
+        photoSpriteR.sprite = photoSprites[selectedPhoto].GetComponent<SpriteRenderer>().sprite;
 
     }
 

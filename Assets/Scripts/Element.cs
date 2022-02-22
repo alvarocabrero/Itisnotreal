@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class Element
+public abstract class Element
 {
     public int popularity { get; set; }
-    public int inestability { get; set; }
+    public int instability { get; set; }
 
-    public Element(int popularity, int inestability)
+    public double multiplier { get; set; }
+
+    public Element(int popularity, int instability, double multiplier)
     {
         this.popularity = popularity;
-        this.inestability = inestability;
+        this.instability = instability;
+        this.multiplier = multiplier;
     }
 
 }
@@ -17,7 +20,7 @@ public class TextElement : Element
 {
     public string text_value { get; set; }
 
-    public TextElement(int popularity, int inestability, string text_value) : base(popularity, inestability)
+    public TextElement(int popularity, int instability, double multiplier, string text_value) : base(popularity, instability, multiplier)
     {
         this.text_value = text_value;
     }
@@ -25,14 +28,14 @@ public class TextElement : Element
 
 public class ImageElement : Element
 {
-    public ImageElement(int popularity, int inestability) : base(popularity, inestability)
+    public ImageElement(int popularity, int instability, double multiplier) : base(popularity, instability, multiplier)
     {
 
     }
 }
 
 
-public static class CATEGORIAS
+public static class CATEGORIES
 {
     public static string BORING = "boring";
     public static string CONSERVATIVE = "conservative";
@@ -66,13 +69,13 @@ public static class TITLE_VALUES
     public static int NEUTRAL_POPULARITY = 0;
     public static int STIRRER_POPULARITY = 200;
     public static int INCENDIARY_POPULARITY = 1000;
-    //Inestability %
-    public static int BORING_INESTABILITY = 0;
-    public static int CONSERVATIVE_INESTABILITY = -10;
-    public static int NEUTRAL_INESTABILITY_LIMIT_A = -3;
-    public static int NEUTRAL_INESTABILITY_LIMIT_B = 3;
-    public static int STIRRER_INESTABILITY = 10;
-    public static int INCENDIARY_INESTABILITY = 20;
+    //Instability %
+    public static int BORING_INSTABILITY = 0;
+    public static int CONSERVATIVE_INSTABILITY = -10;
+    public static int NEUTRAL_INSTABILITY_LIMIT_A = -3;
+    public static int NEUTRAL_INSTABILITY_LIMIT_B = 3;
+    public static int STIRRER_INSTABILITY = 10;
+    public static int INCENDIARY_INSTABILITY = 20;
 }
 public static class SUBHEADINGS_VALUES
 {
@@ -82,13 +85,13 @@ public static class SUBHEADINGS_VALUES
     public static int NEUTRAL_POPULARITY = 0;
     public static int STIRRER_POPULARITY = 100;
     public static int INCENDIARY_POPULARITY = 500;
-    //Inestability %
-    public static int BORING_INESTABILITY = 0;
-    public static int CONSERVATIVE_INESTABILITY = -5;
-    public static int NEUTRAL_INESTABILITY_LIMIT_A = -1;
-    public static int NEUTRAL_INESTABILITY_LIMIT_B = 1;
-    public static int STIRRER_INESTABILITY = 5;
-    public static int INCENDIARY_INESTABILITY = 10;
+    //Instability %
+    public static int BORING_INSTABILITY = 0;
+    public static int CONSERVATIVE_INSTABILITY = -5;
+    public static int NEUTRAL_INSTABILITY_LIMIT_A = -1;
+    public static int NEUTRAL_INSTABILITY_LIMIT_B = 1;
+    public static int STIRRER_INSTABILITY = 5;
+    public static int INCENDIARY_INSTABILITY = 10;
 }
 public static class PHOTO_VALUES
 {
@@ -98,11 +101,32 @@ public static class PHOTO_VALUES
     public static int NEUTRAL_POPULARITY = 0;
     public static int STIRRER_POPULARITY = 150;
     public static int INCENDIARY_POPULARITY = 750;
-    //Inestability %
-    public static int BORING_INESTABILITY = 0;
-    public static int CONSERVATIVE_INESTABILITY = -6;
-    public static int NEUTRAL_INESTABILITY_LIMIT_A = -2;
-    public static int NEUTRAL_INESTABILITY_LIMIT_B = 2;
-    public static int STIRRER_INESTABILITY = 6;
-    public static int INCENDIARY_INESTABILITY = 20;
+    //Instability %
+    public static int BORING_INSTABILITY = 0;
+    public static int CONSERVATIVE_INSTABILITY = -6;
+    public static int NEUTRAL_INSTABILITY_LIMIT_A = -2;
+    public static int NEUTRAL_INSTABILITY_LIMIT_B = 2;
+    public static int STIRRER_INSTABILITY = 6;
+    public static int INCENDIARY_INSTABILITY = 20;
+}
+
+public static class CATEGORY_MULTIPLIERS
+{
+    public static double BORING_HEADING = -0.3;
+    public static double CONSERVATIVE_HEADING = -0.2;
+    public static double NEUTRAL_HEADING = 0;
+    public static double STIRRER_HEADING = 0.2;
+    public static double INCENDIARY_HEADING = 0.4;
+
+    public static double BORING_SUBHEADING = -0.2;
+    public static double CONSERVATIVE_SUBHEADING = -0.1;
+    public static double NEUTRAL_SUBHEADING = 0;
+    public static double STIRRER_SUBHEADING = 0.1;
+    public static double INCENDIARY_SUBHEADING = 0.2;
+
+    public static double BORING_PHOTO = -0.3;
+    public static double CONSERVATIVE_PHOTO = -0.2;
+    public static double NEUTRAL_PHOTO = 0;
+    public static double STIRRER_PHOTO = 0.2;
+    public static double INCENDIARY_PHOTO = 0.4;
 }
