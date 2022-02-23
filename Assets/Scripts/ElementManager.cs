@@ -9,6 +9,8 @@ public class ElementManager : MonoBehaviour
 
     //private static int NUM_ELEMENTOS = 1;
 
+    private Newspaper newspaper = new Newspaper();
+
     private List<Element> photos = new List<Element>();
     private List<Element> subheadings = new List<Element>();
     private List<Element> headings = new List<Element>();
@@ -30,49 +32,85 @@ public class ElementManager : MonoBehaviour
 
         var uiDocument = GameObject.Find("UIDocument").GetComponent<UIDocument>().rootVisualElement;
 
-        uiDocument.Q<Button>("SendButton").clicked += delegate { SendPoints(); };
+        uiDocument.Q<Button>("PublishButton").clicked += delegate { Publish(); };
 
         popularity_value = uiDocument.Q<Label>("popularity_value");
         instability_value = uiDocument.Q<Label>("instability_value");
     }
 
-    public void SendPoints()
+    public void Publish()
     {
-        //Popularity
-        //Calculo
-        int popularityBaseValue = headings[selectedHeading].popularity + subheadings[selectedSubheading].popularity + photos[selectedPhoto].popularity;
-        double popularityMultipliedValue = popularityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
-        int popularityFinalValue = (int)popularityMultipliedValue;
+        UpdateScores();
+        CheckCredibility();
+    }
 
-        //Comprobacion y cambio de texto
-        if (int.Parse(popularity_value.text) + popularityFinalValue <= 0)
-            popularity_value.text = "0";
-        else
-            popularity_value.text = (int.Parse(popularity_value.text) + popularityFinalValue).ToString();
+    private void CheckCredibility()
+    {
+        float totalDetectionRisk = 0f;
+        foreach (var e in GetAllElements())
+        {
+            totalDetectionRisk += e.detectionRisk;
+        }
+        if (UnityEngine.Random.Range(0f, 1f) < totalDetectionRisk)
+        {
+            newspaper.DecrementCredibility();
+        }
+    }
 
-        //Instability
-        //Calculo
-        int instabilityBaseValue = headings[selectedHeading].instability + subheadings[selectedSubheading].instability + photos[selectedPhoto].instability;
-        double instabilityMultipliedValue = instabilityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
-        int instabilityFinalValue = (int)instabilityMultipliedValue;
+    private List<Element> GetAllElements()
+    {
+        List<Element> elements = new List<Element>();
+        elements.Add(headings[selectedHeading]);
+        elements.Add(subheadings[selectedSubheading]);
+        elements.Add(photos[selectedPhoto]);
+        return elements;
+    }
 
-        Debug.Log(instabilityFinalValue);
+    private void UpdateScores()
+    {
+        UpdatePopularityScore(CalculatePopularity());
+        UpdateInstabilityScore(CalculateInstability());
+    }
 
-        //Comprobacion y cambio de texto
+    private void UpdateInstabilityScore(int instabilityFinalValue)
+    {
         if (int.Parse(instability_value.text) + instabilityFinalValue <= 0)
         {
-            //@TODO AÑADIR FINAL DE JUEGO
+            //@TODO Aï¿½ADIR FINAL DE JUEGO
             instability_value.text = "0";
         }
         else if (int.Parse(instability_value.text) + instabilityFinalValue >= 100)
         {
-            //@TODO AÑADIR FINAL DE JUEGO
+            //@TODO Aï¿½ADIR FINAL DE JUEGO
             instability_value.text = "100";
         }
         else
             instability_value.text = (int.Parse(instability_value.text) + instabilityFinalValue).ToString();
-
     }
+
+    private void UpdatePopularityScore(int popularityFinalValue)
+    {
+        if (int.Parse(popularity_value.text) + popularityFinalValue <= 0)
+            popularity_value.text = "0";
+        else
+            popularity_value.text = (int.Parse(popularity_value.text) + popularityFinalValue).ToString();
+    }
+
+    private int CalculatePopularity()
+    {
+        int popularityBaseValue = headings[selectedHeading].popularity + subheadings[selectedSubheading].popularity + photos[selectedPhoto].popularity;
+        double popularityMultipliedValue = popularityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
+        return (int)popularityMultipliedValue;
+    }
+
+    private int CalculateInstability()
+    {
+        int instabilityBaseValue = headings[selectedHeading].instability + subheadings[selectedSubheading].instability + photos[selectedPhoto].instability;
+        double instabilityMultipliedValue = instabilityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
+        return (int)instabilityMultipliedValue;
+    }
+
+
 
     private void InitElements()
     {

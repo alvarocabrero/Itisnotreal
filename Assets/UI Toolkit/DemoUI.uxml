@@ -9,7 +9,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="MainPanel" style="height: 80%;" />
         <ui:VisualElement name="BottomPanel" style="min-width: auto; max-height: none; flex-direction: row-reverse; min-height: auto; align-items: center; justify-content: flex-start; bottom: auto; width: auto;">
-            <ui:Button text="SEND" display-tooltip-when-elided="true" name="SendButton" style="font-size: 57%; max-width: 50%; -unity-font-style: bold; -unity-text-align: middle-center; margin-right: 22px;" />
+            <ui:Button text="PUBLISH" display-tooltip-when-elided="true" name="PublishButton" style="font-size: 57%; max-width: 50%; -unity-font-style: bold; -unity-text-align: middle-center; margin-right: 22px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

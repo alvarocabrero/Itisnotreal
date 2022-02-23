@@ -4,14 +4,16 @@ public class Element
 {
     public int popularity { get; set; }
     public int instability { get; set; }
-
+    public float detectionRisk { get; set; }
     public double multiplier { get; set; }
+
 
     public Element(int popularity, int instability, double multiplier)
     {
         this.popularity = popularity;
         this.instability = instability;
         this.multiplier = multiplier;
+        this.detectionRisk = 0.1f;
     }
 
 }
