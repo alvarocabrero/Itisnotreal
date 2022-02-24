@@ -49,7 +49,59 @@ public class ElementStorage
             }
 
         }
+
+        foreach (GameObject spritesubHeading in subheadingSprites)
+        {
+            SpriteRenderer sprite = spritesubHeading.GetComponent<SpriteRenderer>();
+
+            string theme = THEME.GetTheme(spritesubHeading.name);
+            string category = CATEGORIES.GetCategory(spritesubHeading.name);
+            Dictionary<string, Element> categorias = new Dictionary<string, Element>();
+
+            if (!diccionarioSprites.TryGetValue(theme, out categorias))
+            {
+                diccionarioSprites.Add(theme, new Dictionary<string, Element>());
+            }
+
+            Element categoria;
+            if (categorias.TryGetValue(category, out categoria))
+            {
+                categoria.sprite = spritesubHeading.GetComponent<SpriteRenderer>();
+            }
+            else
+            {
+                categorias.Add(category, new Element(SUBHEADINGS_VALUES.GetPopularity(category), SUBHEADINGS_VALUES.GetInstability(category), SUBHEADINGS_VALUES.GetMultipliers(category), sprite));
+            }
+
+        }
+
+        foreach (GameObject spritePhotos in photoSprites)
+        {
+            SpriteRenderer sprite = spritePhotos.GetComponent<SpriteRenderer>();
+
+            string theme = THEME.GetTheme(spritePhotos.name);
+            string category = CATEGORIES.GetCategory(spritePhotos.name);
+            Dictionary<string, Element> categorias = new Dictionary<string, Element>();
+
+            if (!diccionarioSprites.TryGetValue(theme, out categorias))
+            {
+                diccionarioSprites.Add(theme, new Dictionary<string, Element>());
+            }
+
+            Element categoria;
+            if (categorias.TryGetValue(category, out categoria))
+            {
+                categoria.sprite = spritePhotos.GetComponent<SpriteRenderer>();
+            }
+            else
+            {
+                categorias.Add(category, new Element(PHOTO_VALUES.GetPopularity(category), PHOTO_VALUES.GetInstability(category), PHOTO_VALUES.GetMultipliers(category), sprite));
+            }
+
+        }
     }
+
+
 }
 
 public static class THEME
