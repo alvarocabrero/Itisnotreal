@@ -6,10 +6,34 @@ using UnityEngine;
 public class Newspaper
 {
     public int credibility { get; set; }
+    public int popularity { get; set; }
+    public int instability { get; set; }
 
-    public Newspaper()
+    public Newspaper(int dificulty)
     {
-        credibility = DIFICULTY_LEVELS.EASY;
+        InitValues(dificulty);
+    }
+
+    private void InitValues(int dificulty)
+    {
+        if (dificulty == DIFICULTY_LEVELS.EASY)
+        {
+            credibility = 5;
+            popularity = 5000;
+            instability = 10;
+        }
+        else if (dificulty == DIFICULTY_LEVELS.MEDIUM)
+        {
+            credibility = 3;
+            popularity = 2500;
+            instability = 25;
+        }
+        else if (dificulty == DIFICULTY_LEVELS.HARD)
+        {
+            credibility = 1;
+            popularity = 1000;
+            instability = 50;
+        }
     }
 
     public void DecrementCredibility()
@@ -31,7 +55,7 @@ public class Newspaper
 
 public static class DIFICULTY_LEVELS
 {
-    public static int EASY = 5;
-    public static int MEDIUM = 3;
-    public static int HARD = 1;
+    public static int EASY = 0;
+    public static int MEDIUM = 1;
+    public static int HARD = 2;
 }

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ElementManager : MonoBehaviour
+public class ElementManager
 {
 
     //private static int NUM_ELEMENTOS = 1;
 
-    private Newspaper newspaper = new Newspaper();
+    public Newspaper newspaper = new Newspaper(DIFICULTY_LEVELS.MEDIUM);
 
     private List<Element> photos = new List<Element>();
     private List<Element> subheadings = new List<Element>();
@@ -19,32 +19,12 @@ public class ElementManager : MonoBehaviour
     private int selectedSubheading = 0;
     private int selectedPhoto = 0;
 
-    public SpriteRenderer headingSpriteR, subheadingSpriteR, photoSpriteR;
-
-    public List<GameObject> headingSprites, subheadingSprites, photoSprites = new List<GameObject>();
-
-    private Label popularity_value;
-    private Label instability_value;
-    // Start is called before the first frame update
-    void Start()
+    public ElementManager()
     {
         InitElements();
-
-        var uiDocument = GameObject.Find("UIDocument").GetComponent<UIDocument>().rootVisualElement;
-
-        uiDocument.Q<Button>("PublishButton").clicked += delegate { Publish(); };
-
-        popularity_value = uiDocument.Q<Label>("popularity_value");
-        instability_value = uiDocument.Q<Label>("instability_value");
     }
 
-    public void Publish()
-    {
-        UpdateScores();
-        CheckCredibility();
-    }
-
-    private void CheckCredibility()
+    public void CheckCredibility()
     {
         float totalDetectionRisk = 0f;
         foreach (var e in GetAllElements())
@@ -66,44 +46,14 @@ public class ElementManager : MonoBehaviour
         return elements;
     }
 
-    private void UpdateScores()
-    {
-        UpdatePopularityScore(CalculatePopularity());
-        UpdateInstabilityScore(CalculateInstability());
-    }
-
-    private void UpdateInstabilityScore(int instabilityFinalValue)
-    {
-        if (int.Parse(instability_value.text) + instabilityFinalValue <= 0)
-        {
-            //@TODO A�ADIR FINAL DE JUEGO
-            instability_value.text = "0";
-        }
-        else if (int.Parse(instability_value.text) + instabilityFinalValue >= 100)
-        {
-            //@TODO A�ADIR FINAL DE JUEGO
-            instability_value.text = "100";
-        }
-        else
-            instability_value.text = (int.Parse(instability_value.text) + instabilityFinalValue).ToString();
-    }
-
-    private void UpdatePopularityScore(int popularityFinalValue)
-    {
-        if (int.Parse(popularity_value.text) + popularityFinalValue <= 0)
-            popularity_value.text = "0";
-        else
-            popularity_value.text = (int.Parse(popularity_value.text) + popularityFinalValue).ToString();
-    }
-
-    private int CalculatePopularity()
+    public int CalculatePopularity()
     {
         int popularityBaseValue = headings[selectedHeading].popularity + subheadings[selectedSubheading].popularity + photos[selectedPhoto].popularity;
         double popularityMultipliedValue = popularityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
         return (int)popularityMultipliedValue;
     }
 
-    private int CalculateInstability()
+    public int CalculateInstability()
     {
         int instabilityBaseValue = headings[selectedHeading].instability + subheadings[selectedSubheading].instability + photos[selectedPhoto].instability;
         double instabilityMultipliedValue = instabilityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
@@ -125,37 +75,5 @@ public class ElementManager : MonoBehaviour
             //photos
             photos.Add(new Element(PHOTO_VALUES.POPULARITIES[i], PHOTO_VALUES.INSTABILITY[i], PHOTO_VALUES.MULTIPLIERS[i]));
         }
-    }
-
-    public int NextElement(List<GameObject> list, SpriteRenderer renderer, ref int selectedElement)
-    {
-        if (selectedElement + 1 < list.Count)
-        {
-            selectedElement += 1;
-        }
-        else
-            selectedElement = 0;
-        renderer.sprite = list[selectedElement].GetComponent<SpriteRenderer>().sprite;
-        return selectedElement;
-    }
-
-    public void NextHeading()
-    {
-        NextElement(headingSprites, headingSpriteR, ref selectedHeading);
-    }
-
-    public void NextSubheading()
-    {
-        NextElement(subheadingSprites, subheadingSpriteR, ref selectedSubheading);
-    }
-
-    public void NextPhoto()
-    {
-        NextElement(photoSprites, photoSpriteR, ref selectedPhoto);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }
