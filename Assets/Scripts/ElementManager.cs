@@ -59,21 +59,13 @@ public class ElementManager
         double instabilityMultipliedValue = instabilityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
         return (int)instabilityMultipliedValue;
     }
-
-
-
-    private void InitElements()
+    
+    private void SetElements(List<Element> headings,List<Element> subheadings,List<Element> photos)
     {
-        //headings
-        for (int i = 0; i < TITLE_VALUES.POPULARITIES.Length; i++)
-        {
-            //Hay que meterlos siempre en orden en elementos y siempre tener el mismo numero pero bueno es una solucion a no tener pila adds
-            //headings
-            headings.Add(new Element(TITLE_VALUES.POPULARITIES[i], TITLE_VALUES.INSTABILITY[i], TITLE_VALUES.MULTIPLIERS[i]));
-            //subheadings
-            subheadings.Add(new Element(SUBHEADINGS_VALUES.POPULARITIES[i], SUBHEADINGS_VALUES.INSTABILITY[i], SUBHEADINGS_VALUES.MULTIPLIERS[i]));
-            //photos
-            photos.Add(new Element(PHOTO_VALUES.POPULARITIES[i], PHOTO_VALUES.INSTABILITY[i], PHOTO_VALUES.MULTIPLIERS[i]));
-        }
+        this.headings.AddRange(headings);
+        this.subheadings.AddRange(subheadings);
+        this.photos.AddRange(photos);
     }
+
+    
 }

@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class MainApp : MonoBehaviour
 {
     ElementManager EM = new ElementManager();
+
     private int selectedHeading = 0;
     private int selectedSubheading = 0;
     private int selectedPhoto = 0;
@@ -111,4 +112,11 @@ public class MainApp : MonoBehaviour
     void Update()
     {
     }
+}
+
+public static class DIFICULTY_LEVELS
+{
+    public static int EASY = 0;
+    public static int MEDIUM = 1;
+    public static int HARD = 2;
 }

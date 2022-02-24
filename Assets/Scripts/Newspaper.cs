@@ -52,10 +52,3 @@ public class Newspaper
         Debug.Log("CENSORED! You lost.");
     }
 }
-
-public static class DIFICULTY_LEVELS
-{
-    public static int EASY = 0;
-    public static int MEDIUM = 1;
-    public static int HARD = 2;
-}
