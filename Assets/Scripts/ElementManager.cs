@@ -15,13 +15,14 @@ public class ElementManager
     private List<Element> subheadings = new List<Element>();
     private List<Element> headings = new List<Element>();
 
+
     private int selectedHeading = 0;
     private int selectedSubheading = 0;
     private int selectedPhoto = 0;
 
     public ElementManager()
     {
-        InitElements();
+
     }
 
     public void CheckCredibility()
@@ -59,13 +60,13 @@ public class ElementManager
         double instabilityMultipliedValue = instabilityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
         return (int)instabilityMultipliedValue;
     }
-    
-    private void SetElements(List<Element> headings,List<Element> subheadings,List<Element> photos)
+
+    private void SetElements(List<Element> headings, List<Element> subheadings, List<Element> photos)
     {
         this.headings.AddRange(headings);
         this.subheadings.AddRange(subheadings);
         this.photos.AddRange(photos);
     }
 
-    
+
 }

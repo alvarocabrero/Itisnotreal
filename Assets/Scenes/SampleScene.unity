@@ -250,8 +250,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 624242780}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -107, z: 0}
-  m_LocalScale: {x: 80, y: 80, z: 80}
+  m_LocalPosition: {x: 0, y: -115.79, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 2}
   m_Children: []
   m_Father: {fileID: 1114391603}
   m_RootOrder: 2
@@ -296,7 +296,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 4f6e414e2246d684897c88d2d017e6c8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 38f04745698ead04495d4763cf709731, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -346,21 +346,21 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 1.28}
+    oldSize: {x: 38.96, y: 38.96}
     newSize: {x: 2.56, y: 1.28}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.56, y: 1.28}
+  m_Size: {x: 38.96, y: 38.96}
   m_EdgeRadius: 0
 --- !u!1 &706508174
 GameObject:
@@ -869,11 +869,11 @@ MonoBehaviour:
   - {fileID: 6006178106397754195, guid: 86ec7c792b588ab478e6729c880e892c, type: 3}
   - {fileID: 6006178106397754195, guid: 98c0e7168fa289f49a73b3010bf11804, type: 3}
   photoSprites:
-  - {fileID: 8819734200065274284, guid: 97409f719e21f3e4595d744229b335d1, type: 3}
-  - {fileID: 8819734200065274284, guid: bdbddb41862a21e4dbe28b0ce7a642c3, type: 3}
-  - {fileID: 8819734200065274284, guid: d9e3bd9094820a445a6aa07615798641, type: 3}
-  - {fileID: 8819734200065274284, guid: 74cb1537ff7dcf04d8e07ae32856dd89, type: 3}
-  - {fileID: 8819734200065274284, guid: 1235a0fe555665a4b8eb557d7f5a025b, type: 3}
+  - {fileID: 7934040406645511089, guid: 8652afbc7c0d56f4a93518496bf62da8, type: 3}
+  - {fileID: 5770094998365524353, guid: 016d44acdeb35054d8e23072da89ef01, type: 3}
+  - {fileID: 6928354872146648317, guid: 46186ebc4ae492e47ac88f217ce351b5, type: 3}
+  - {fileID: 2025739528139769062, guid: 0e04f4e2ea794a54dba17881f546e7ea, type: 3}
+  - {fileID: 8395463610635547951, guid: d5003c07be0b4e34693645a5915f4824, type: 3}
 --- !u!1 &1751764291
 GameObject:
   m_ObjectHideFlags: 0

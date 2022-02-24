@@ -12,9 +12,11 @@ public class MainApp : MonoBehaviour
     private int selectedSubheading = 0;
     private int selectedPhoto = 0;
 
-    public SpriteRenderer headingSpriteR, subheadingSpriteR, photoSpriteR;
+    public SpriteRenderer headingSpriteUI, subheadingSpriteUI, photoSpriteUI;
 
     public List<GameObject> headingSprites, subheadingSprites, photoSprites = new List<GameObject>();
+
+    public ElementStorage elementStorage;
 
     private Label popularity_value_label;
     private Label instability_value_label;
@@ -28,11 +30,13 @@ public class MainApp : MonoBehaviour
 
         popularity_value_label = uiDocument.Q<Label>("popularity_value_label");
         instability_value_label = uiDocument.Q<Label>("instability_value_label");
-        credibility_value_label = uiDocument.Q<Label>("credibility_value_label"); 
+        credibility_value_label = uiDocument.Q<Label>("credibility_value_label");
 
         UpdateCredibilityScore(EM.newspaper.credibility);
         UpdatePopularityScore(EM.newspaper.popularity);
         UpdateInstabilityScore(EM.newspaper.instability);
+
+        elementStorage = new ElementStorage(headingSprites, subheadingSprites, photoSprites);
     }
 
     public void Publish()
@@ -44,7 +48,7 @@ public class MainApp : MonoBehaviour
 
     private void ShowReport()
     {
-        
+
     }
 
     private void UpdateScores()
@@ -95,17 +99,17 @@ public class MainApp : MonoBehaviour
 
     public void NextHeading()
     {
-        NextElement(headingSprites, headingSpriteR, ref selectedHeading);
+        NextElement(headingSprites, headingSpriteUI, ref selectedHeading);
     }
 
     public void NextSubheading()
     {
-        NextElement(subheadingSprites, subheadingSpriteR, ref selectedSubheading);
+        NextElement(subheadingSprites, subheadingSpriteUI, ref selectedSubheading);
     }
 
     public void NextPhoto()
     {
-        NextElement(photoSprites, photoSpriteR, ref selectedPhoto);
+        NextElement(photoSprites, photoSpriteUI, ref selectedPhoto);
     }
 
     // Update is called once per frame

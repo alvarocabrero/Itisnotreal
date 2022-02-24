@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Element
@@ -6,14 +7,15 @@ public class Element
     public int instability { get; set; }
     public float detectionRisk { get; set; }
     public double multiplier { get; set; }
+    public SpriteRenderer sprite { get; set; }
 
-
-    public Element(int popularity, int instability, double multiplier)
+    public Element(int popularity, int instability, double multiplier, SpriteRenderer sprite)
     {
         this.popularity = popularity;
         this.instability = instability;
         this.multiplier = multiplier;
         this.detectionRisk = 0.1f;
+        this.sprite = sprite;
     }
 
 }
@@ -21,11 +23,23 @@ public class Element
 public static class CATEGORIES
 {
 
-    public static string BORING = "boring";
-    public static string CONSERVATIVE = "conservative";
-    public static string NEUTRAL = "neutral";
-    public static string STIRRER = "stirrer";
-    public static string INCENDIARY = "incendiary";
+    public const string BORING = "boring";
+    public const string CONSERVATIVE = "conservative";
+    public const string NEUTRAL = "neutral";
+    public const string STIRRER = "stirrer";
+    public const string INCENDIARY = "incendiary";
+
+    public static string[] CATEGORY_LIST = { BORING, CONSERVATIVE, NEUTRAL, STIRRER, INCENDIARY };
+    internal static string GetCategory(string category)
+    {
+        foreach (string c in CATEGORY_LIST)
+        {
+            if (category.Contains(c))
+                return c;
+        }
+        return "";
+
+    }
 }
 
 
@@ -73,6 +87,62 @@ public static class TITLE_VALUES
     public static int[] INSTABILITY = { BORING_INSTABILITY, CONSERVATIVE_INSTABILITY, NEUTRAL_INSTABILITY_LIMIT_A, STIRRER_INSTABILITY, INCENDIARY_INSTABILITY };
     public static double[] MULTIPLIERS = { BORING_MULTIPLIER, CONSERVATIVE_MULTIPLIER, NEUTRAL_MULTIPLIER, STIRRER_MULTIPLIER, INCENDIARY_MULTIPLIER };
 
+    public static int GetPopularity(String categoria)
+    {
+        switch (CATEGORIES.GetCategory(categoria))
+        {
+            case CATEGORIES.BORING:
+                return BORING_POPULARITY;
+            case CATEGORIES.CONSERVATIVE:
+                return CONSERVATIVE_POPULARITY;
+            case CATEGORIES.NEUTRAL:
+                return NEUTRAL_POPULARITY;
+            case CATEGORIES.STIRRER:
+                return STIRRER_POPULARITY;
+            case CATEGORIES.INCENDIARY:
+                return INCENDIARY_POPULARITY;
+        }
+        Debug.LogError("No existe la categoria");
+        return -11111;
+    }
+    public static int GetInstability(String categoria)
+    {
+        switch (CATEGORIES.GetCategory(categoria))
+        {
+            case CATEGORIES.BORING:
+                return BORING_INSTABILITY;
+            case CATEGORIES.CONSERVATIVE:
+                return CONSERVATIVE_INSTABILITY;
+            case CATEGORIES.NEUTRAL:
+                return NEUTRAL_INSTABILITY_LIMIT_A;
+            case CATEGORIES.STIRRER:
+                return STIRRER_INSTABILITY;
+            case CATEGORIES.INCENDIARY:
+                return INCENDIARY_INSTABILITY;
+        }
+        Debug.LogError("No existe la categoria");
+        return -11111;
+    }
+
+    public static double GetMultipliers(String categoria)
+    {
+        switch (CATEGORIES.GetCategory(categoria))
+        {
+            case CATEGORIES.BORING:
+                return BORING_MULTIPLIER;
+            case CATEGORIES.CONSERVATIVE:
+                return CONSERVATIVE_MULTIPLIER;
+            case CATEGORIES.NEUTRAL:
+                return NEUTRAL_MULTIPLIER;
+            case CATEGORIES.STIRRER:
+                return STIRRER_MULTIPLIER;
+            case CATEGORIES.INCENDIARY:
+                return INCENDIARY_MULTIPLIER;
+        }
+        Debug.LogError("No existe la categoria");
+        return -11111;
+    }
+
 }
 public static class SUBHEADINGS_VALUES
 {
@@ -101,7 +171,61 @@ public static class SUBHEADINGS_VALUES
     public static int[] INSTABILITY = { BORING_INSTABILITY, CONSERVATIVE_INSTABILITY, NEUTRAL_INSTABILITY_LIMIT_A, STIRRER_INSTABILITY, INCENDIARY_INSTABILITY };
     public static double[] MULTIPLIERS = { BORING_MULTIPLIER, CONSERVATIVE_MULTIPLIER, NEUTRAL_MULTIPLIER, STIRRER_MULTIPLIER, INCENDIARY_MULTIPLIER };
 
+    public static int GetPopularity(String categoria)
+    {
+        switch (CATEGORIES.GetCategory(categoria))
+        {
+            case CATEGORIES.BORING:
+                return BORING_POPULARITY;
+            case CATEGORIES.CONSERVATIVE:
+                return CONSERVATIVE_POPULARITY;
+            case CATEGORIES.NEUTRAL:
+                return NEUTRAL_POPULARITY;
+            case CATEGORIES.STIRRER:
+                return STIRRER_POPULARITY;
+            case CATEGORIES.INCENDIARY:
+                return INCENDIARY_POPULARITY;
+        }
+        Debug.LogError("No existe la categoria");
+        return -11111;
+    }
+    public static int GetInstability(String categoria)
+    {
+        switch (CATEGORIES.GetCategory(categoria))
+        {
+            case CATEGORIES.BORING:
+                return BORING_INSTABILITY;
+            case CATEGORIES.CONSERVATIVE:
+                return CONSERVATIVE_INSTABILITY;
+            case CATEGORIES.NEUTRAL:
+                return NEUTRAL_INSTABILITY_LIMIT_A;
+            case CATEGORIES.STIRRER:
+                return STIRRER_INSTABILITY;
+            case CATEGORIES.INCENDIARY:
+                return INCENDIARY_INSTABILITY;
+        }
+        Debug.LogError("No existe la categoria");
+        return -11111;
+    }
 
+    public static double GetMultipliers(String categoria)
+    {
+        switch (CATEGORIES.GetCategory(categoria))
+        {
+            case CATEGORIES.BORING:
+                return BORING_MULTIPLIER;
+            case CATEGORIES.CONSERVATIVE:
+                return CONSERVATIVE_MULTIPLIER;
+            case CATEGORIES.NEUTRAL:
+                return NEUTRAL_MULTIPLIER;
+            case CATEGORIES.STIRRER:
+                return STIRRER_MULTIPLIER;
+            case CATEGORIES.INCENDIARY:
+                return INCENDIARY_MULTIPLIER;
+        }
+        Debug.LogError("No existe la categoria");
+        return -11111;
+    }
 }
 public static class PHOTO_VALUES
 {
@@ -130,5 +254,62 @@ public static class PHOTO_VALUES
     public static int[] POPULARITIES = { BORING_POPULARITY, CONSERVATIVE_POPULARITY, NEUTRAL_POPULARITY, STIRRER_POPULARITY, INCENDIARY_POPULARITY };
     public static int[] INSTABILITY = { BORING_INSTABILITY, CONSERVATIVE_INSTABILITY, NEUTRAL_INSTABILITY_LIMIT_A, STIRRER_INSTABILITY, INCENDIARY_INSTABILITY };
     public static double[] MULTIPLIERS = { BORING_MULTIPLIER, CONSERVATIVE_MULTIPLIER, NEUTRAL_MULTIPLIER, STIRRER_MULTIPLIER, INCENDIARY_MULTIPLIER };
+    public static int GetPopularity(String categoria)
+    {
+        switch (CATEGORIES.GetCategory(categoria))
+        {
+            case CATEGORIES.BORING:
+                return BORING_POPULARITY;
+            case CATEGORIES.CONSERVATIVE:
+                return CONSERVATIVE_POPULARITY;
+            case CATEGORIES.NEUTRAL:
+                return NEUTRAL_POPULARITY;
+            case CATEGORIES.STIRRER:
+                return STIRRER_POPULARITY;
+            case CATEGORIES.INCENDIARY:
+                return INCENDIARY_POPULARITY;
+        }
+        Debug.LogError("No existe la categoria");
+        return -11111;
+    }
+    public static int GetInstability(String categoria)
+    {
+        switch (CATEGORIES.GetCategory(categoria))
+        {
+            case CATEGORIES.BORING:
+                return BORING_INSTABILITY;
+            case CATEGORIES.CONSERVATIVE:
+                return CONSERVATIVE_INSTABILITY;
+            case CATEGORIES.NEUTRAL:
+                return NEUTRAL_INSTABILITY_LIMIT_A;
+            case CATEGORIES.STIRRER:
+                return STIRRER_INSTABILITY;
+            case CATEGORIES.INCENDIARY:
+                return INCENDIARY_INSTABILITY;
+        }
+        Debug.LogError("No existe la categoria");
+        return -11111;
+    }
+
+    public static double GetMultipliers(String categoria)
+    {
+        switch (CATEGORIES.GetCategory(categoria))
+        {
+            case CATEGORIES.BORING:
+                return BORING_MULTIPLIER;
+            case CATEGORIES.CONSERVATIVE:
+                return CONSERVATIVE_MULTIPLIER;
+            case CATEGORIES.NEUTRAL:
+                return NEUTRAL_MULTIPLIER;
+            case CATEGORIES.STIRRER:
+                return STIRRER_MULTIPLIER;
+            case CATEGORIES.INCENDIARY:
+                return INCENDIARY_MULTIPLIER;
+        }
+        Debug.LogError("No existe la categoria");
+        return -11111;
+    }
+
+
 }
 
