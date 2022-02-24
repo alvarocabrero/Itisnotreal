@@ -33,23 +33,20 @@ public class ElementStorage
             string category = CATEGORIES.GetCategory(spriteHeading.name);
             Dictionary<string, Element> categorias = new Dictionary<string, Element>();
 
-            if (diccionarioSprites.TryGetValue(theme, out categorias))
+            if (!diccionarioSprites.TryGetValue(theme, out categorias))
             {
-                Element categoria;
-                if (categorias.TryGetValue(category, out categoria))
-                {
-                    categoria.sprite = spriteHeading.GetComponent<SpriteRenderer>();
-                }
-                else
-                {
-                    categorias.Add(category, new Element(TITLE_VALUES.GetPopularity(category), TITLE_VALUES.GetInstability(category), TITLE_VALUES.GetMultipliers(category), sprite));
-                }
+                diccionarioSprites.Add(theme, new Dictionary<string, Element>());
+            }
+
+            Element categoria;
+            if (categorias.TryGetValue(category, out categoria))
+            {
+                categoria.sprite = spriteHeading.GetComponent<SpriteRenderer>();
             }
             else
             {
-                // diccionario sprites.add(theme, ...
+                categorias.Add(category, new Element(TITLE_VALUES.GetPopularity(category), TITLE_VALUES.GetInstability(category), TITLE_VALUES.GetMultipliers(category), sprite));
             }
-
 
         }
     }
