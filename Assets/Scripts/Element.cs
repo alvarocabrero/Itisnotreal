@@ -44,8 +44,6 @@ public abstract class AbstractElement : IElement
 
     public float GetDetectionRisk()
     {
-        Debug.Log(fake);
-        Debug.Log(GetConcreteDetectionRisk());
         return fake ? GetConcreteDetectionRisk() : 0f;
     }
 
