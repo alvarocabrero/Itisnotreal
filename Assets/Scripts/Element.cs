@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 interface IElement
 {
@@ -28,6 +28,11 @@ public abstract class AbstractElement : IElement
         this.sprite = sprite;
     }
 
+    public AbstractElement(ICategory category, Sprite sprite, bool fake) : this(category, sprite)
+    {
+        this.fake = fake;
+    }
+
     protected abstract float GetConcreteDetectionRisk();
     public abstract double GetMultiplier();
 
@@ -39,6 +44,8 @@ public abstract class AbstractElement : IElement
 
     public float GetDetectionRisk()
     {
+        Debug.Log(fake);
+        Debug.Log(GetConcreteDetectionRisk());
         return fake ? GetConcreteDetectionRisk() : 0f;
     }
 
@@ -56,6 +63,7 @@ public abstract class AbstractElement : IElement
 public class Heading : AbstractElement, IElement
 {
     public Heading(ICategory category, Sprite sprite) : base(category, sprite) { }
+    public Heading(ICategory category, Sprite sprite, bool fake) : base(category, sprite, fake) { }
 
     protected override float GetConcreteDetectionRisk()
     {
@@ -63,13 +71,14 @@ public class Heading : AbstractElement, IElement
     }
     public override double GetMultiplier()
     {
-        return 1;
+        return 0.1;
     }
 }
 
 public class Subheading : AbstractElement, IElement
 {
     public Subheading(ICategory category, Sprite sprite) : base(category, sprite) { }
+    public Subheading(ICategory category, Sprite sprite, bool fake) : base(category, sprite, fake) { }
 
     protected override float GetConcreteDetectionRisk()
     {
@@ -78,13 +87,14 @@ public class Subheading : AbstractElement, IElement
 
     public override double GetMultiplier()
     {
-        return 0.25;
+        return 0.025;
     }
 }
 
 public class Photo : AbstractElement, IElement
 {
     public Photo(ICategory category, Sprite sprite) : base(category, sprite) { }
+    public Photo(ICategory category, Sprite sprite, bool fake) : base(category, sprite, fake) { }
 
     protected override float GetConcreteDetectionRisk()
     {
@@ -92,7 +102,7 @@ public class Photo : AbstractElement, IElement
     }
     public override double GetMultiplier()
     {
-        return 0.5;
+        return 0.05;
     }
 }
 

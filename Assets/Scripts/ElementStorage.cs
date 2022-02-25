@@ -13,7 +13,6 @@ public class ElementStorage
 
     //public Dictionary<string, Dictionary<string, IElement>> diccionarioSprites = new Dictionary<string, Dictionary<string, Element>>();
 
-
     public ElementStorage(List<GameObject> headingSprites, List<GameObject> subheadingSprites, List<GameObject> photoSprites)
     {
         this.headingSprites = headingSprites;

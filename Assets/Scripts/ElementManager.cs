@@ -56,30 +56,41 @@ public class ElementManager
     public int CalculatePopularity()
     {
         int popularityBaseValue = selectedHeading.GetCategory().GetPopularity() + selectedSubheading.GetCategory().GetPopularity() + selectedPhoto.GetCategory().GetPopularity();
-        double popularityMultipliedValue = popularityBaseValue * (1.0 + selectedHeading.GetCategory().GetPopularity() + selectedSubheading.GetCategory().GetPopularity() + selectedPhoto.GetCategory().GetPopularity());
+        double popularityMultipliedValue = popularityBaseValue * (1.0 + selectedHeading.GetMultiplier() + selectedSubheading.GetMultiplier() + selectedPhoto.GetMultiplier());
         return (int)popularityMultipliedValue;
     }
 
     public int CalculateInstability()
     {
         int instabilityBaseValue = selectedHeading.GetCategory().GetInstability() + selectedSubheading.GetCategory().GetInstability() + selectedPhoto.GetCategory().GetInstability();
-        double instabilityMultipliedValue = instabilityBaseValue * (1.0 + selectedHeading.GetCategory().GetInstability() + selectedSubheading.GetCategory().GetInstability() + selectedPhoto.GetCategory().GetInstability());
+        double instabilityMultipliedValue = instabilityBaseValue * (1.0 + selectedHeading.GetMultiplier() + selectedSubheading.GetMultiplier() + selectedPhoto.GetMultiplier());
         return (int)instabilityMultipliedValue;
     }
 
     public Heading NextHeading()
     {
-        selectedHeading = headings[headings.IndexOf(selectedHeading) + 1];
+        if (headings.IndexOf(selectedHeading) + 1 <= headings.Count - 1)
+            selectedHeading = headings[headings.IndexOf(selectedHeading) + 1];
+        else
+            selectedHeading = headings[0];
         return selectedHeading;
     }
 
     public Subheading NextSubheading()
     {
-        return selectedSubheading = subheadings[subheadings.IndexOf(selectedSubheading) + 1];
+        if (subheadings.IndexOf(selectedSubheading) + 1 <= subheadings.Count - 1)
+            selectedSubheading = subheadings[subheadings.IndexOf(selectedSubheading) + 1];
+        else
+            selectedSubheading = subheadings[0];
+        return selectedSubheading;
     }
 
     public Photo NextPhoto()
     {
-        return selectedPhoto = photos[photos.IndexOf(selectedPhoto) + 1];
+        if (photos.IndexOf(selectedPhoto) + 1 <= photos.Count - 1)
+            selectedPhoto = photos[photos.IndexOf(selectedPhoto) + 1];
+        else
+            selectedPhoto = photos[0];
+        return selectedPhoto;
     }
 }

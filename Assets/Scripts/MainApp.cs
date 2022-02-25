@@ -1,16 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class MainApp : MonoBehaviour
 {
     ElementManager EM;
-
-    private int selectedHeading = 0;
-    private int selectedSubheading = 0;
-    private int selectedPhoto = 0;
 
     public static SpriteRenderer headingSpriteUI, subheadingSpriteUI, photoSpriteUI;
 
@@ -21,23 +18,20 @@ public class MainApp : MonoBehaviour
     private Label popularity_value_label;
     private Label instability_value_label;
     private Label credibility_value_label;
+    private readonly bool FAKE = true;
+
     // Start is called before the first frame update
     void Start()
     {
         InitElementManager();
 
-        var uiDocument = GameObject.Find("UIDocument").GetComponent<UIDocument>().rootVisualElement;
+        InitUI();
 
-        uiDocument.Q<Button>("PublishButton").clicked += delegate { Publish(); };
 
-        popularity_value_label = uiDocument.Q<Label>("popularity_value_label");
-        instability_value_label = uiDocument.Q<Label>("instability_value_label");
-        credibility_value_label = uiDocument.Q<Label>("credibility_value_label");
 
-        UpdateCredibilityScore(EM.newspaper.credibility);
-        UpdatePopularityScore(EM.newspaper.popularity);
-        UpdateInstabilityScore(EM.newspaper.instability);
+        UpdateScores(EM.newspaper.popularity, EM.newspaper.instability, EM.newspaper.credibility);
     }
+
 
     private void InitElementManager()
     {
@@ -45,11 +39,11 @@ public class MainApp : MonoBehaviour
         List<Subheading> subheadings = new List<Subheading>();
         List<Photo> photos = new List<Photo>();
 
-        headings.Add(new Heading(new Boring(), Resources.Load<Sprite>("Photos/war_boring_heading")));
-        headings.Add(new Heading(new Conservative(), Resources.Load<Sprite>("Photos/war_conservative_heading")));
-        headings.Add(new Heading(new Neutral(), Resources.Load<Sprite>("Photos/war_neutral_heading")));
-        headings.Add(new Heading(new Stirrer(), Resources.Load<Sprite>("Photos/war_stirrer_heading")));
-        headings.Add(new Heading(new Incendiary(), Resources.Load<Sprite>("Photos/war_incendiary_heading")));
+        headings.Add(new Heading(new Boring(), headingSprites[0]));
+        headings.Add(new Heading(new Conservative(), headingSprites[1]));
+        headings.Add(new Heading(new Neutral(), headingSprites[2]));
+        headings.Add(new Heading(new Stirrer(), headingSprites[3]));
+        headings.Add(new Heading(new Incendiary(), headingSprites[4], FAKE));
 
         subheadings.Add(new Subheading(new Boring(), subheadingSprites[0]));
         subheadings.Add(new Subheading(new Conservative(), subheadingSprites[1]));
@@ -58,33 +52,33 @@ public class MainApp : MonoBehaviour
         subheadings.Add(new Subheading(new Incendiary(), subheadingSprites[4]));
 
         photos.Add(new Photo(new Boring(), photoSprites[0]));
-        photos.Add(new Photo(new Conservative(), photoSprites[1]));
+        photos.Add(new Photo(new Conservative(), photoSprites[1], FAKE));
         photos.Add(new Photo(new Neutral(), photoSprites[2]));
         photos.Add(new Photo(new Stirrer(), photoSprites[3]));
         photos.Add(new Photo(new Incendiary(), photoSprites[4]));
 
-        Debug.Log(headings);
-
         EM = new ElementManager(headings, subheadings, photos);
     }
-
-    public void Publish()
+    private void InitUI()
     {
-        EM.CheckCredibility();
-        UpdateScores();
-        ShowReport();
+        headingSpriteUI = GameObject.Find("Heading").GetComponent<SpriteRenderer>();
+        subheadingSpriteUI = GameObject.Find("Subheading").GetComponent<SpriteRenderer>();
+        photoSpriteUI = GameObject.Find("Photo").GetComponent<SpriteRenderer>();
+
+        var uiDocument = GameObject.Find("UIDocument").GetComponent<UIDocument>().rootVisualElement;
+
+        uiDocument.Q<Button>("PublishButton").clicked += delegate { Publish(); };
+
+        popularity_value_label = uiDocument.Q<Label>("popularity_value_label");
+        instability_value_label = uiDocument.Q<Label>("instability_value_label");
+        credibility_value_label = uiDocument.Q<Label>("credibility_value_label");
     }
 
-    private void ShowReport()
+    private void UpdateScores(int popularity, int instability, int credibility)
     {
-
-    }
-
-    private void UpdateScores()
-    {
-        UpdatePopularityScore(EM.CalculatePopularity());
-        UpdateInstabilityScore(EM.CalculateInstability());
-        UpdateCredibilityScore(EM.newspaper.credibility);
+        UpdatePopularityScore(popularity);
+        UpdateInstabilityScore(instability);
+        UpdateCredibilityScore(credibility);
     }
 
     private void UpdateCredibilityScore(int credibility)
@@ -114,15 +108,16 @@ public class MainApp : MonoBehaviour
             popularity_value_label.text = (int.Parse(popularity_value_label.text) + popularityFinalValue).ToString();
     }
 
-    public int NextElement(List<GameObject> list, SpriteRenderer renderer, ref int selectedElement)
+    public void Publish()
     {
-        if (selectedElement + 1 < list.Count)
-        {
-            selectedElement += 1;
-        }
-        else
-            selectedElement = 0;
-        return selectedElement;
+        EM.CheckCredibility();
+        UpdateScores(EM.CalculatePopularity(), EM.CalculateInstability(), EM.newspaper.credibility);
+        ShowReport();
+    }
+
+    private void ShowReport()
+    {
+
     }
 
     public void NextHeading()
