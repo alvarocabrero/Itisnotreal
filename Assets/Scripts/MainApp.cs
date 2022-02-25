@@ -6,15 +6,15 @@ using UnityEngine.UIElements;
 
 public class MainApp : MonoBehaviour
 {
-    ElementManager EM = new ElementManager();
+    ElementManager EM;
 
     private int selectedHeading = 0;
     private int selectedSubheading = 0;
     private int selectedPhoto = 0;
 
-    public SpriteRenderer headingSpriteUI, subheadingSpriteUI, photoSpriteUI;
+    public static SpriteRenderer headingSpriteUI, subheadingSpriteUI, photoSpriteUI;
 
-    public List<GameObject> headingSprites, subheadingSprites, photoSprites = new List<GameObject>();
+    public List<Sprite> headingSprites, subheadingSprites, photoSprites = new List<Sprite>();
 
     public ElementStorage elementStorage;
 
@@ -24,6 +24,8 @@ public class MainApp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InitElementManager();
+
         var uiDocument = GameObject.Find("UIDocument").GetComponent<UIDocument>().rootVisualElement;
 
         uiDocument.Q<Button>("PublishButton").clicked += delegate { Publish(); };
@@ -35,8 +37,35 @@ public class MainApp : MonoBehaviour
         UpdateCredibilityScore(EM.newspaper.credibility);
         UpdatePopularityScore(EM.newspaper.popularity);
         UpdateInstabilityScore(EM.newspaper.instability);
+    }
 
-        elementStorage = new ElementStorage(headingSprites, subheadingSprites, photoSprites);
+    private void InitElementManager()
+    {
+        List<Heading> headings = new List<Heading>();
+        List<Subheading> subheadings = new List<Subheading>();
+        List<Photo> photos = new List<Photo>();
+
+        headings.Add(new Heading(new Boring(), Resources.Load<Sprite>("Photos/war_boring_heading")));
+        headings.Add(new Heading(new Conservative(), Resources.Load<Sprite>("Photos/war_conservative_heading")));
+        headings.Add(new Heading(new Neutral(), Resources.Load<Sprite>("Photos/war_neutral_heading")));
+        headings.Add(new Heading(new Stirrer(), Resources.Load<Sprite>("Photos/war_stirrer_heading")));
+        headings.Add(new Heading(new Incendiary(), Resources.Load<Sprite>("Photos/war_incendiary_heading")));
+
+        subheadings.Add(new Subheading(new Boring(), subheadingSprites[0]));
+        subheadings.Add(new Subheading(new Conservative(), subheadingSprites[1]));
+        subheadings.Add(new Subheading(new Neutral(), subheadingSprites[2]));
+        subheadings.Add(new Subheading(new Stirrer(), subheadingSprites[3]));
+        subheadings.Add(new Subheading(new Incendiary(), subheadingSprites[4]));
+
+        photos.Add(new Photo(new Boring(), photoSprites[0]));
+        photos.Add(new Photo(new Conservative(), photoSprites[1]));
+        photos.Add(new Photo(new Neutral(), photoSprites[2]));
+        photos.Add(new Photo(new Stirrer(), photoSprites[3]));
+        photos.Add(new Photo(new Incendiary(), photoSprites[4]));
+
+        Debug.Log(headings);
+
+        EM = new ElementManager(headings, subheadings, photos);
     }
 
     public void Publish()
@@ -93,23 +122,22 @@ public class MainApp : MonoBehaviour
         }
         else
             selectedElement = 0;
-        renderer.sprite = list[selectedElement].GetComponent<SpriteRenderer>().sprite;
         return selectedElement;
     }
 
     public void NextHeading()
     {
-        NextElement(headingSprites, headingSpriteUI, ref selectedHeading);
+        headingSpriteUI.sprite = EM.NextHeading().GetSprite();
     }
 
     public void NextSubheading()
     {
-        NextElement(subheadingSprites, subheadingSpriteUI, ref selectedSubheading);
+        subheadingSpriteUI.sprite = EM.NextSubheading().GetSprite();
     }
 
     public void NextPhoto()
     {
-        NextElement(photoSprites, photoSpriteUI, ref selectedPhoto);
+        photoSpriteUI.sprite = EM.NextPhoto().GetSprite();
     }
 
     // Update is called once per frame

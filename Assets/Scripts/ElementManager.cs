@@ -11,26 +11,32 @@ public class ElementManager
 
     public Newspaper newspaper = new Newspaper(DIFICULTY_LEVELS.MEDIUM);
 
-    private List<Element> photos = new List<Element>();
-    private List<Element> subheadings = new List<Element>();
-    private List<Element> headings = new List<Element>();
+
+    private List<Subheading> subheadings = new List<Subheading>();
+    private List<Heading> headings = new List<Heading>();
+    private List<Photo> photos = new List<Photo>();
 
 
-    private int selectedHeading = 0;
-    private int selectedSubheading = 0;
-    private int selectedPhoto = 0;
+    public Heading selectedHeading;
+    public Subheading selectedSubheading;
+    public Photo selectedPhoto;
 
-    public ElementManager()
+    public ElementManager(List<Heading> headings, List<Subheading> subheadings, List<Photo> photos)
     {
-
+        this.headings = headings;
+        this.subheadings = subheadings;
+        this.photos = photos;
+        selectedHeading = headings[0];
+        selectedSubheading = subheadings[0];
+        selectedPhoto = photos[0];
     }
 
     public void CheckCredibility()
     {
         float totalDetectionRisk = 0f;
-        foreach (var e in GetAllElements())
+        foreach (var e in GetAllIElements())
         {
-            totalDetectionRisk += e.detectionRisk;
+            totalDetectionRisk += e.GetDetectionRisk();
         }
         if (UnityEngine.Random.Range(0f, 1f) < totalDetectionRisk)
         {
@@ -38,35 +44,42 @@ public class ElementManager
         }
     }
 
-    private List<Element> GetAllElements()
+    private List<IElement> GetAllIElements()
     {
-        List<Element> elements = new List<Element>();
-        elements.Add(headings[selectedHeading]);
-        elements.Add(subheadings[selectedSubheading]);
-        elements.Add(photos[selectedPhoto]);
+        List<IElement> elements = new List<IElement>();
+        elements.Add(selectedHeading);
+        elements.Add(selectedSubheading);
+        elements.Add(selectedPhoto);
         return elements;
     }
 
     public int CalculatePopularity()
     {
-        int popularityBaseValue = headings[selectedHeading].popularity + subheadings[selectedSubheading].popularity + photos[selectedPhoto].popularity;
-        double popularityMultipliedValue = popularityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
+        int popularityBaseValue = selectedHeading.GetCategory().GetPopularity() + selectedSubheading.GetCategory().GetPopularity() + selectedPhoto.GetCategory().GetPopularity();
+        double popularityMultipliedValue = popularityBaseValue * (1.0 + selectedHeading.GetCategory().GetPopularity() + selectedSubheading.GetCategory().GetPopularity() + selectedPhoto.GetCategory().GetPopularity());
         return (int)popularityMultipliedValue;
     }
 
     public int CalculateInstability()
     {
-        int instabilityBaseValue = headings[selectedHeading].instability + subheadings[selectedSubheading].instability + photos[selectedPhoto].instability;
-        double instabilityMultipliedValue = instabilityBaseValue * (1.0 + headings[selectedHeading].multiplier + subheadings[selectedSubheading].multiplier + photos[selectedPhoto].multiplier);
+        int instabilityBaseValue = selectedHeading.GetCategory().GetInstability() + selectedSubheading.GetCategory().GetInstability() + selectedPhoto.GetCategory().GetInstability();
+        double instabilityMultipliedValue = instabilityBaseValue * (1.0 + selectedHeading.GetCategory().GetInstability() + selectedSubheading.GetCategory().GetInstability() + selectedPhoto.GetCategory().GetInstability());
         return (int)instabilityMultipliedValue;
     }
 
-    private void SetElements(List<Element> headings, List<Element> subheadings, List<Element> photos)
+    public Heading NextHeading()
     {
-        this.headings.AddRange(headings);
-        this.subheadings.AddRange(subheadings);
-        this.photos.AddRange(photos);
+        selectedHeading = headings[headings.IndexOf(selectedHeading) + 1];
+        return selectedHeading;
     }
 
+    public Subheading NextSubheading()
+    {
+        return selectedSubheading = subheadings[subheadings.IndexOf(selectedSubheading) + 1];
+    }
 
+    public Photo NextPhoto()
+    {
+        return selectedPhoto = photos[photos.IndexOf(selectedPhoto) + 1];
+    }
 }

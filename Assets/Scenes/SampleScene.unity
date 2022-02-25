@@ -652,8 +652,8 @@ GameObject:
   - component: {fileID: 971470657}
   - component: {fileID: 971470653}
   - component: {fileID: 971470654}
-  - component: {fileID: 971470655}
   - component: {fileID: 971470656}
+  - component: {fileID: 971470652}
   m_Layer: 0
   m_Name: Heading
   m_TagString: Untagged
@@ -661,6 +661,32 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!61 &971470652
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971470651}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10, y: 2.5}
+    newSize: {x: 2.56, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 10, y: 2.5}
+  m_EdgeRadius: 0
 --- !u!212 &971470653
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -701,7 +727,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: cdc82b220c740924fab1775df3bac6e1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7a5f781b9e69dbd4da474e170aa5162b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -741,32 +767,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!61 &971470655
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971470651}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 1.28}
-    newSize: {x: 2.56, y: 1.28}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.56, y: 1.28}
-  m_EdgeRadius: 0
 --- !u!223 &971470656
 Canvas:
   m_ObjectHideFlags: 0
@@ -797,15 +797,15 @@ RectTransform:
   m_GameObject: {fileID: 971470651}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 80, y: 80, z: 80}
+  m_LocalScale: {x: 40, y: 40, z: 1}
   m_Children: []
   m_Father: {fileID: 1114391603}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 108}
-  m_SizeDelta: {x: 2.56, y: 1.28}
+  m_AnchoredPosition: {x: -0, y: 150}
+  m_SizeDelta: {x: 10, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1114391602
 GameObject:
@@ -853,27 +853,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e58bd8fedad6464b8c8fcb0b4f217b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headingSpriteR: {fileID: 971470653}
-  subheadingSpriteR: {fileID: 706508176}
-  photoSpriteR: {fileID: 624242782}
   headingSprites:
-  - {fileID: 8819734200065274284, guid: e47c0a1a8c74e894b9562e29bc68e850, type: 3}
-  - {fileID: 2146329449330109769, guid: dc4595158ac8be345b0b9e1478d40d73, type: 3}
-  - {fileID: 2299744996103001456, guid: 6e133869cdc48254ea06c6ecec487d90, type: 3}
-  - {fileID: 1450432608689862138, guid: 7e2158f233f6726479989457707f8f93, type: 3}
-  - {fileID: 6429389483449097050, guid: b71c72faacf1c2c4f8b179e75e1b3652, type: 3}
+  - {fileID: 21300000, guid: cdc82b220c740924fab1775df3bac6e1, type: 3}
+  - {fileID: 21300000, guid: e3e18d4d8e04ad84981fcfa8a2952380, type: 3}
+  - {fileID: 21300000, guid: fc5c3358be5a3d44490e8ea30b3cf9f9, type: 3}
+  - {fileID: 21300000, guid: 814a89c008e499c46b46079e27c99ec8, type: 3}
+  - {fileID: 21300000, guid: e2e3f3d1c5c2c1c43b193d9efd4933e0, type: 3}
   subheadingSprites:
-  - {fileID: 6006178106397754195, guid: 48d9e42dcbfe4604f8349963927b05e4, type: 3}
-  - {fileID: 6006178106397754195, guid: 1b1800db22d7b42489f373b8c4a889bd, type: 3}
-  - {fileID: 6006178106397754195, guid: 1cb8647e570a6024ab09e89e40f14d69, type: 3}
-  - {fileID: 6006178106397754195, guid: 86ec7c792b588ab478e6729c880e892c, type: 3}
-  - {fileID: 6006178106397754195, guid: 98c0e7168fa289f49a73b3010bf11804, type: 3}
+  - {fileID: 21300000, guid: 5384e5597c4c5e146a2b955cacc872b6, type: 3}
+  - {fileID: 21300000, guid: 79a16774241c55240aa5ae11557fbdfc, type: 3}
+  - {fileID: 21300000, guid: 4aa560b49a02a7647a0a7ceaa789d90f, type: 3}
+  - {fileID: 21300000, guid: 818bb32b20697b342a1c44ae3be4d683, type: 3}
+  - {fileID: 21300000, guid: fe12aa3ec7c8b8640b33d8c265efc709, type: 3}
   photoSprites:
-  - {fileID: 7934040406645511089, guid: 8652afbc7c0d56f4a93518496bf62da8, type: 3}
-  - {fileID: 5770094998365524353, guid: 016d44acdeb35054d8e23072da89ef01, type: 3}
-  - {fileID: 6928354872146648317, guid: 46186ebc4ae492e47ac88f217ce351b5, type: 3}
-  - {fileID: 2025739528139769062, guid: 0e04f4e2ea794a54dba17881f546e7ea, type: 3}
-  - {fileID: 8395463610635547951, guid: d5003c07be0b4e34693645a5915f4824, type: 3}
+  - {fileID: 21300000, guid: 13f99e610b0039f40bc6098d6191695c, type: 3}
+  - {fileID: 21300000, guid: cfaccb19dffe0664f9edd35c29db2576, type: 3}
+  - {fileID: 21300000, guid: 4953a74d069d05a459117febff4f057c, type: 3}
+  - {fileID: 21300000, guid: 0618371bea87da7469757224991fdec9, type: 3}
+  - {fileID: 21300000, guid: aa70ce67dc712ac49b752d436e8fd4dc, type: 3}
 --- !u!1 &1751764291
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,25 +1,102 @@
 using System;
+using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class Element
+interface IElement
 {
-    public int popularity { get; set; }
-    public int instability { get; set; }
-    public float detectionRisk { get; set; }
-    public double multiplier { get; set; }
-    public SpriteRenderer sprite { get; set; }
+    bool IsFake();
+    ICategory GetCategory();
+    double GetMultiplier();
+    float GetDetectionRisk();
+    Sprite GetSprite();
+}
 
-    public Element(int popularity, int instability, double multiplier, SpriteRenderer sprite)
+
+public abstract class AbstractElement : IElement
+{
+    private bool fake;
+    private float detectionRisk;
+    private double multiplier;
+    private Sprite sprite;
+
+    private ICategory category;
+
+    public AbstractElement(ICategory category, Sprite sprite)
     {
-        this.popularity = popularity;
-        this.instability = instability;
-        this.multiplier = multiplier;
-        this.detectionRisk = 0.1f;
+        this.category = category;
         this.sprite = sprite;
     }
 
+    protected abstract float GetConcreteDetectionRisk();
+    public abstract double GetMultiplier();
+
+    public ICategory GetCategory()
+    {
+        return category; ;
+    }
+
+
+    public float GetDetectionRisk()
+    {
+        return fake ? GetConcreteDetectionRisk() : 0f;
+    }
+
+    public Sprite GetSprite()
+    {
+        return sprite;
+    }
+
+    public bool IsFake()
+    {
+        return fake;
+    }
 }
 
+public class Heading : AbstractElement, IElement
+{
+    public Heading(ICategory category, Sprite sprite) : base(category, sprite) { }
+
+    protected override float GetConcreteDetectionRisk()
+    {
+        return 0.5f;
+    }
+    public override double GetMultiplier()
+    {
+        return 1;
+    }
+}
+
+public class Subheading : AbstractElement, IElement
+{
+    public Subheading(ICategory category, Sprite sprite) : base(category, sprite) { }
+
+    protected override float GetConcreteDetectionRisk()
+    {
+        return 0.1f;
+    }
+
+    public override double GetMultiplier()
+    {
+        return 0.25;
+    }
+}
+
+public class Photo : AbstractElement, IElement
+{
+    public Photo(ICategory category, Sprite sprite) : base(category, sprite) { }
+
+    protected override float GetConcreteDetectionRisk()
+    {
+        return 0.1f;
+    }
+    public override double GetMultiplier()
+    {
+        return 0.5;
+    }
+}
+
+/**
 public static class CATEGORIES
 {
 
@@ -313,3 +390,4 @@ public static class PHOTO_VALUES
 
 }
 
+**/
