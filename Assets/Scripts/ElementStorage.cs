@@ -6,119 +6,189 @@ using UnityEngine;
 
 public class ElementStorage
 {
-    private List<GameObject> headingSprites;
-    private List<GameObject> subheadingSprites;
-    private List<GameObject> photoSprites;
+    public const string HEADING = "heading";
+    public const string SUBHEADING = "subheading";
+    public const string PHOTO = "photo";
 
-
-    //public Dictionary<string, Dictionary<string, IElement>> diccionarioSprites = new Dictionary<string, Dictionary<string, Element>>();
-
+    public List<IElement> all_elements = new List<IElement>();
     public ElementStorage(List<GameObject> headingSprites, List<GameObject> subheadingSprites, List<GameObject> photoSprites)
     {
-        this.headingSprites = headingSprites;
-        this.subheadingSprites = subheadingSprites;
-        this.photoSprites = photoSprites;
-        //SortSprites();
-
+        AddElements(headingSprites, HEADING);
+        AddElements(subheadingSprites, SUBHEADING);
+        AddElements(photoSprites, PHOTO);
     }
-    /**
-        private void SortSprites()
-        {
-            foreach (GameObject spriteHeading in headingSprites)
-            {
-                SpriteRenderer sprite = spriteHeading.GetComponent<SpriteRenderer>();
 
-                string theme = THEME.GetTheme(spriteHeading.name);
-                string category = CATEGORIES.GetCategory(spriteHeading.name);
-                Dictionary<string, Element> categorias = new Dictionary<string, Element>();
-
-                if (!diccionarioSprites.TryGetValue(theme, out categorias))
-                {
-                    diccionarioSprites.Add(theme, new Dictionary<string, Element>());
-                }
-
-                Element categoria;
-                if (categorias.TryGetValue(category, out categoria))
-                {
-                    categoria.sprite = spriteHeading.GetComponent<SpriteRenderer>();
-                }
-                else
-                {
-                    categorias.Add(category, new Element(TITLE_VALUES.GetPopularity(category), TITLE_VALUES.GetInstability(category), TITLE_VALUES.GetMultipliers(category), sprite));
-                }
-
-            }
-
-            foreach (GameObject spritesubHeading in subheadingSprites)
-            {
-                SpriteRenderer sprite = spritesubHeading.GetComponent<SpriteRenderer>();
-
-                string theme = THEME.GetTheme(spritesubHeading.name);
-                string category = CATEGORIES.GetCategory(spritesubHeading.name);
-                Dictionary<string, Element> categorias = new Dictionary<string, Element>();
-
-                if (!diccionarioSprites.TryGetValue(theme, out categorias))
-                {
-                    diccionarioSprites.Add(theme, new Dictionary<string, Element>());
-                }
-
-                Element categoria;
-                if (categorias.TryGetValue(category, out categoria))
-                {
-                    categoria.sprite = spritesubHeading.GetComponent<SpriteRenderer>();
-                }
-                else
-                {
-                    categorias.Add(category, new Element(SUBHEADINGS_VALUES.GetPopularity(category), SUBHEADINGS_VALUES.GetInstability(category), SUBHEADINGS_VALUES.GetMultipliers(category), sprite));
-                }
-
-            }
-
-            foreach (GameObject spritePhotos in photoSprites)
-            {
-                SpriteRenderer sprite = spritePhotos.GetComponent<SpriteRenderer>();
-
-                string theme = THEME.GetTheme(spritePhotos.name);
-                string category = CATEGORIES.GetCategory(spritePhotos.name);
-                Dictionary<string, Element> categorias = new Dictionary<string, Element>();
-
-                if (!diccionarioSprites.TryGetValue(theme, out categorias))
-                {
-                    diccionarioSprites.Add(theme, new Dictionary<string, Element>());
-                }
-
-                Element categoria;
-                if (categorias.TryGetValue(category, out categoria))
-                {
-                    categoria.sprite = spritePhotos.GetComponent<SpriteRenderer>();
-                }
-                else
-                {
-                    categorias.Add(category, new Element(PHOTO_VALUES.GetPopularity(category), PHOTO_VALUES.GetInstability(category), PHOTO_VALUES.GetMultipliers(category), sprite));
-                }
-
-            }
-        }
-    **/
-
-}
-
-public static class THEME
-{
-    private static string WAR = "war";
-    private static string SALSEO = "salseo";
-    private static string HEALTH = "health";
-
-    public static string[] THEME_LIST = { WAR, SALSEO, HEALTH };
-
-
-    public static string GetTheme(string theme)
+    internal List<Photo> GetPhotos(string theme)
     {
-        foreach (string t in THEME.THEME_LIST)
+        List<Photo> photos = new List<Photo>();
+        foreach (IElement element in all_elements)
         {
-            if (theme.Contains(t))
-                return t;
+            if (element is Photo)
+                if (element.GetTheme().Equals(theme))
+                {
+                    Photo photo = (Photo)element;
+                    photos.Add(photo);
+                }
+
         }
-        return "";
+
+        if (photos.Count == 0)
+            Debug.LogError("theme not found");
+        return photos;
     }
+
+    internal List<Heading> GetHeadings(string theme)
+    {
+        List<Heading> hedings = new List<Heading>();
+        foreach (IElement element in all_elements)
+        {
+            if (element is Heading)
+                if (element.GetTheme().Equals(theme))
+                {
+                    Heading heding = (Heading)element;
+                    hedings.Add(heding);
+                }
+
+        }
+
+        if (hedings.Count == 0)
+            Debug.LogError("theme not found");
+        return hedings;
+    }
+
+    internal List<Subheading> GetSubheadings(string theme)
+    {
+        List<Subheading> subhedings = new List<Subheading>();
+        foreach (IElement element in all_elements)
+        {
+            if (element is Subheading)
+                if (element.GetTheme().Equals(theme))
+                {
+                    Subheading subheding = (Subheading)element;
+                    subhedings.Add(subheding);
+                }
+
+        }
+
+        if (subhedings.Count == 0)
+            Debug.LogError("theme not found");
+        return subhedings;
+    }
+    public Heading GetHeading(string theme, ICategory category)
+    {
+        foreach (IElement element in all_elements)
+        {
+            if (element is Heading)
+                if (element.GetTheme().Equals(theme))
+                    if (element.GetCategory().Equals(category.GetCategory()))
+                    {
+                        Heading title = (Heading)element;
+
+                        return title;
+                    }
+        }
+        Debug.LogError("element not found");
+        return null;
+    }
+    public Subheading GetSubHeading(string theme, ICategory category)
+    {
+        foreach (IElement element in all_elements)
+        {
+            if (element is Subheading)
+                if (element.GetTheme().Equals(theme))
+                    if (element.GetCategory().Equals(category.GetCategory()))
+                    {
+                        Subheading title = (Subheading)element;
+
+                        return title;
+                    }
+        }
+        Debug.LogError("element not found");
+        return null;
+    }
+    public Photo GetPhoto(string theme, ICategory category)
+    {
+        foreach (IElement element in all_elements)
+        {
+            if (element is Photo)
+                if (element.GetTheme().Equals(theme))
+                    if (element.GetCategory().Equals(category.GetCategory()))
+                    {
+                        Photo title = (Photo)element;
+
+                        return title;
+                    }
+        }
+        Debug.LogError("element not found");
+        return null;
+    }
+    private void AddElements(List<GameObject> sprites, string type)
+    {
+        foreach (GameObject sprite in sprites)
+        {
+            SpriteRenderer spriterenderer = sprite.GetComponent<SpriteRenderer>();
+
+            string category = CATEGORIES.GetCategory(sprite.name);
+
+            //Category to add
+            ICategory category_value = null;
+            switch (category)
+            {
+                case CATEGORIES.BORING:
+                    category_value = new Boring();
+                    break;
+                case CATEGORIES.CONSERVATIVE:
+                    category_value = new Conservative();
+                    break;
+                case CATEGORIES.NEUTRAL:
+                    category_value = new Neutral();
+                    break;
+                case CATEGORIES.STIRRER:
+                    category_value = new Stirrer();
+                    break;
+                case CATEGORIES.INCENDIARY:
+                    category_value = new Incendiary();
+                    break;
+            }
+            if (category_value == null)
+            {
+                Debug.LogError("Categoria inexistente");
+            }
+
+            string theme = THEME.GetTheme(sprite.name);
+            bool fake = false;
+            if (sprite.name.Contains("fake"))
+                fake = true;
+            switch (type)
+            {
+                case HEADING:
+                    {
+
+                        all_elements.Add(new Heading(category_value, spriterenderer, theme, 0.5f, 0.1f, fake));
+                        break;
+                    }
+                case SUBHEADING:
+                    {
+                        all_elements.Add(new Subheading(category_value, spriterenderer, theme, 0.1f, 0.025f, fake));
+                        break;
+                    }
+                case PHOTO:
+                    {
+                        all_elements.Add(new Photo(category_value, spriterenderer, theme, 0.1f, 0.05f, fake));
+                        break;
+                    }
+                default:
+                    {
+                        Debug.LogError("El tipo no existe heading, subheading o photo");
+                        break;
+                    }
+            }
+
+        }
+
+
+    }
+
+
 }
+

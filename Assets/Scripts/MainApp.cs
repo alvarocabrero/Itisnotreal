@@ -11,22 +11,24 @@ public class MainApp : MonoBehaviour
 
     public static SpriteRenderer headingSpriteUI, subheadingSpriteUI, photoSpriteUI;
 
-    public List<Sprite> headingSprites, subheadingSprites, photoSprites = new List<Sprite>();
+    public List<GameObject> headingSprites, subheadingSprites, photoSprites = new List<GameObject>();
 
     public ElementStorage elementStorage;
 
     private Label popularity_value_label;
     private Label instability_value_label;
     private Label credibility_value_label;
-    private readonly bool FAKE = true;
+    //private readonly bool FAKE = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        InitElementManager();
-
         InitUI();
 
+        //Init element storage
+        elementStorage = new ElementStorage(headingSprites, subheadingSprites, photoSprites);
+        //Init Element Manager
+        InitElementManager();
 
 
         UpdateScores(EM.newspaper.popularity, EM.newspaper.instability, EM.newspaper.credibility);
@@ -35,30 +37,20 @@ public class MainApp : MonoBehaviour
 
     private void InitElementManager()
     {
-        List<Heading> headings = new List<Heading>();
-        List<Subheading> subheadings = new List<Subheading>();
-        List<Photo> photos = new List<Photo>();
+        string firsChosenTheme = THEME.THEME_LIST[2];
 
-        headings.Add(new Heading(new Boring(), headingSprites[0]));
-        headings.Add(new Heading(new Conservative(), headingSprites[1]));
-        headings.Add(new Heading(new Neutral(), headingSprites[2]));
-        headings.Add(new Heading(new Stirrer(), headingSprites[3]));
-        headings.Add(new Heading(new Incendiary(), headingSprites[4], FAKE));
-
-        subheadings.Add(new Subheading(new Boring(), subheadingSprites[0]));
-        subheadings.Add(new Subheading(new Conservative(), subheadingSprites[1]));
-        subheadings.Add(new Subheading(new Neutral(), subheadingSprites[2]));
-        subheadings.Add(new Subheading(new Stirrer(), subheadingSprites[3]));
-        subheadings.Add(new Subheading(new Incendiary(), subheadingSprites[4]));
-
-        photos.Add(new Photo(new Boring(), photoSprites[0]));
-        photos.Add(new Photo(new Conservative(), photoSprites[1], FAKE));
-        photos.Add(new Photo(new Neutral(), photoSprites[2]));
-        photos.Add(new Photo(new Stirrer(), photoSprites[3]));
-        photos.Add(new Photo(new Incendiary(), photoSprites[4]));
+        List<Heading> headings = elementStorage.GetHeadings(firsChosenTheme);
+        List<Subheading> subheadings = elementStorage.GetSubheadings(firsChosenTheme);
+        List<Photo> photos = elementStorage.GetPhotos(firsChosenTheme);
 
         EM = new ElementManager(headings, subheadings, photos);
+        headingSpriteUI.sprite = EM.selectedHeading.GetSprite().sprite;
+        subheadingSpriteUI.sprite = EM.selectedSubheading.GetSprite().sprite;
+        photoSpriteUI.sprite = EM.selectedPhoto.GetSprite().sprite;
+
     }
+
+
     private void InitUI()
     {
         headingSpriteUI = GameObject.Find("Heading").GetComponent<SpriteRenderer>();
@@ -122,17 +114,17 @@ public class MainApp : MonoBehaviour
 
     public void NextHeading()
     {
-        headingSpriteUI.sprite = EM.NextHeading().GetSprite();
+        headingSpriteUI.sprite = EM.NextHeading().GetSprite().sprite;
     }
 
     public void NextSubheading()
     {
-        subheadingSpriteUI.sprite = EM.NextSubheading().GetSprite();
+        subheadingSpriteUI.sprite = EM.NextSubheading().GetSprite().sprite;
     }
 
     public void NextPhoto()
     {
-        photoSpriteUI.sprite = EM.NextPhoto().GetSprite();
+        photoSpriteUI.sprite = EM.NextPhoto().GetSprite().sprite;
     }
 
     // Update is called once per frame
@@ -141,9 +133,4 @@ public class MainApp : MonoBehaviour
     }
 }
 
-public static class DIFICULTY_LEVELS
-{
-    public static int EASY = 0;
-    public static int MEDIUM = 1;
-    public static int HARD = 2;
-}
+

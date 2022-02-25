@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1450432608689862136}
   - component: {fileID: 1450432608689862139}
   m_Layer: 0
-  m_Name: heading_stirrer
+  m_Name: health_heading_stirrer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4,10 +4,16 @@ public interface ICategory
 {
     int GetPopularity();
     int GetInstability();
+    string GetCategory();
 }
 
 class Boring : ICategory
 {
+    public string GetCategory()
+    {
+        return CATEGORIES.BORING;
+    }
+
     public int GetInstability()
     {
         return Random.Range(-5, -3);
@@ -21,6 +27,10 @@ class Boring : ICategory
 
 class Conservative : ICategory
 {
+    public string GetCategory()
+    {
+        return CATEGORIES.CONSERVATIVE;
+    }
     public int GetInstability()
     {
         return Random.Range(-3, -1);
@@ -34,6 +44,10 @@ class Conservative : ICategory
 
 class Neutral : ICategory
 {
+    public string GetCategory()
+    {
+        return CATEGORIES.NEUTRAL;
+    }
     public int GetInstability()
     {
         return Random.Range(-1, 1);
@@ -47,6 +61,10 @@ class Neutral : ICategory
 
 class Stirrer : ICategory
 {
+    public string GetCategory()
+    {
+        return CATEGORIES.STIRRER;
+    }
     public int GetInstability()
     {
         return Random.Range(1, 3);
@@ -60,6 +78,10 @@ class Stirrer : ICategory
 
 class Incendiary : ICategory
 {
+    public string GetCategory()
+    {
+        return CATEGORIES.INCENDIARY;
+    }
     public int GetInstability()
     {
         return Random.Range(3, 5);

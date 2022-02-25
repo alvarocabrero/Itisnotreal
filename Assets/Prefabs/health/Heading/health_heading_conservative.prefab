@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2146329449330109771}
   - component: {fileID: 2146329449330109770}
   m_Layer: 0
-  m_Name: heading_conservative
+  m_Name: health_heading_conservative
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
