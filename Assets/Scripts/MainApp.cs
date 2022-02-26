@@ -29,7 +29,9 @@ public class MainApp : MonoBehaviour
     //Report Canvas
     private Canvas reportCanvas;
     private Text instability_report_value, credibility_report_value, popularity_report_value;
-    private VisualElement uiDocument_root_copy;
+
+    private int NEWSPERWEEK = 2;
+
 
     public UnityEngine.UIElements.Button PublishButton { get; private set; }
 
@@ -72,13 +74,15 @@ public class MainApp : MonoBehaviour
 
     private void ChangeTheme()
     {
+        Debug.Log("ChangeTheme");
         foreach (string theme in THEME.THEME_LIST)
             if (!used_themes.Contains(theme))
             {
                 EstablishTheme(theme);
                 return;
             }
-        Debug.LogError("No hay mas temas");
+        //Fin de partida
+        Debug.Log("No hay mas temas");
     }
 
     private void InitUI()
@@ -145,16 +149,21 @@ public class MainApp : MonoBehaviour
         EM.CheckCredibility();
         UpdateScores(EM.CalculatePopularity(), EM.CalculateInstability(), EM.newspaper.credibility);
         //@TODO sumar directamente en los contadores rollo efecto visual 
-        ChangeTheme();
         //@TODO si han pasado 2 o tres noticias o fin del juego mostrar report
-        ShowReport();
+        for (int i = 1; i <= THEME.THEME_LIST.Length; i++)
+            if (used_themes.Count.Equals(NEWSPERWEEK * i))
+            {
+                ShowReport();
+                return;
+            }
+        ChangeTheme();
     }
 
     public void NextWeek()
     {
         reportCanvas.enabled = false;
         uiDocument_root.SetEnabled(true);
-
+        ChangeTheme();
     }
 
     private void ShowReport()
