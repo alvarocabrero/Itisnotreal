@@ -161,6 +161,7 @@ public class MainApp : MonoBehaviour
 
     public void Publish()
     {
+        timer = 0;
         EM.CheckCredibility();
         UpdateScores(EM.CalculatePopularity(), EM.CalculateInstability(), EM.newspaper.credibility);
         //@TODO sumar directamente en los contadores rollo efecto visual 
@@ -195,7 +196,10 @@ public class MainApp : MonoBehaviour
         popularity_report_value.text = "+ " + EM.newspaper.popularity.ToString();
         instability_report_value.text = "+ " + EM.newspaper.instability.ToString();
         credibility_report_value.text = "+ " + EM.newspaper.credibility.ToString();
+
+
         reportCanvas.enabled = true;
+        ChangeTheme();
     }
 
     public void NextHeading()
@@ -224,7 +228,9 @@ public class MainApp : MonoBehaviour
             clock_label.text = (timer_Limit - seconds).ToString();
             if (timer_Limit - seconds == 0)
             {
+                Publish();
                 ShowReport();
+                timer = 0;
             }
         }
 
