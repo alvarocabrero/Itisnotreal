@@ -22,6 +22,8 @@ public class MainApp : MonoBehaviour
     private Label popularity_value_label;
     private Label instability_value_label;
     private Label credibility_value_label;
+    private Label clock_label;
+
     //private readonly bool FAKE = true;
     private List<string> used_themes = new List<string>();
 
@@ -35,10 +37,15 @@ public class MainApp : MonoBehaviour
 
     public UnityEngine.UIElements.Button PublishButton { get; private set; }
 
+    float timer = 0.0f;
+    float timer_Limit = 30f;
+    private bool playing;
+
 
     // Start is called before the first frame update
     void Start()
     {
+
         InitUI();
 
         //Init element storage
@@ -47,6 +54,8 @@ public class MainApp : MonoBehaviour
         InitElementManager();
 
         UpdateScores(EM.newspaper.popularity, EM.newspaper.instability, EM.newspaper.credibility);
+        playing = true;
+
     }
 
 
@@ -103,11 +112,17 @@ public class MainApp : MonoBehaviour
 
         GameObject UIDocument_object = GameObject.Find("UIDocument");
         uiDocument_root = UIDocument_object.GetComponent<UIDocument>().rootVisualElement;
+
         PublishButton = uiDocument_root.Q<UnityEngine.UIElements.Button>("PublishButton");
         PublishButton.clicked += delegate { Publish(); };
+
         popularity_value_label = uiDocument_root.Q<Label>("popularity_value_label");
         instability_value_label = uiDocument_root.Q<Label>("instability_value_label");
         credibility_value_label = uiDocument_root.Q<Label>("credibility_value_label");
+
+        clock_label = uiDocument_root.Q<Label>("clock_label");
+        clock_label.text = timer_Limit.ToString();
+
     }
 
     private void UpdateScores(int popularity, int instability, int credibility)
@@ -156,18 +171,25 @@ public class MainApp : MonoBehaviour
                 ShowReport();
                 return;
             }
+
         ChangeTheme();
+        clock_label.text = timer_Limit.ToString();
     }
 
     public void NextWeek()
     {
+
         reportCanvas.enabled = false;
         uiDocument_root.SetEnabled(true);
         ChangeTheme();
+        playing = true;
+
     }
 
     private void ShowReport()
     {
+        playing = false;
+
         uiDocument_root.SetEnabled(false);
         //@TODO mostrar valores report values
         popularity_report_value.text = "+ " + EM.newspaper.popularity.ToString();
@@ -191,9 +213,21 @@ public class MainApp : MonoBehaviour
         photoSpriteUI.sprite = EM.NextPhoto().GetSprite().sprite;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
+        if (playing)
+        {
+
+            timer += Time.deltaTime;
+            int seconds = (int)(timer % 60);
+            clock_label.text = (timer_Limit - seconds).ToString();
+            if (timer_Limit - seconds == 0)
+            {
+                ShowReport();
+            }
+        }
+
     }
 }
 
