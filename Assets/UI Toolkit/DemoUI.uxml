@@ -13,8 +13,6 @@
             <ui:Label text="30" display-tooltip-when-elided="true" name="clock_label" style="min-width: 10%; min-height: 10%; white-space: normal; font-size: 30%; -unity-text-align: upper-right;" />
             <ui:Label text="seconds left" display-tooltip-when-elided="true" name="second_label" style="min-width: 50%; min-height: 10%; white-space: normal; font-size: 30%;" />
         </ui:VisualElement>
-        <ui:VisualElement name="BottomPanel" style="min-width: auto; max-height: none; flex-direction: row-reverse; min-height: 10%; align-items: center; justify-content: flex-start; bottom: auto; width: auto;">
-            <ui:Button text="PUBLISH" display-tooltip-when-elided="true" name="PublishButton" style="font-size: 57%; max-width: 50%; -unity-font-style: bold; -unity-text-align: middle-center; margin-right: 22px;" />
-        </ui:VisualElement>
+        <ui:VisualElement name="BottomPanel" style="min-width: auto; max-height: none; flex-direction: row-reverse; min-height: 10%; align-items: center; justify-content: flex-start; bottom: auto; width: auto;" />
     </ui:VisualElement>
 </ui:UXML>

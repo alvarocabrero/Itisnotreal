@@ -19,6 +19,8 @@ public class MainApp : MonoBehaviour
 
     public ElementStorage elementStorage;
 
+    public Animator Button_Publish_Animator { get; private set; }
+
     private Label popularity_value_label;
     private Label instability_value_label;
     private Label credibility_value_label;
@@ -35,7 +37,6 @@ public class MainApp : MonoBehaviour
     private int NEWSPERWEEK = 2;
 
 
-    public UnityEngine.UIElements.Button PublishButton { get; private set; }
 
     float timer = 0.0f;
     float timer_Limit = 30f;
@@ -113,8 +114,8 @@ public class MainApp : MonoBehaviour
         GameObject UIDocument_object = GameObject.Find("UIDocument");
         uiDocument_root = UIDocument_object.GetComponent<UIDocument>().rootVisualElement;
 
-        PublishButton = uiDocument_root.Q<UnityEngine.UIElements.Button>("PublishButton");
-        PublishButton.clicked += delegate { Publish(); };
+
+        Button_Publish_Animator = GameObject.Find("Button_Publish").GetComponent<Animator>();
 
         popularity_value_label = uiDocument_root.Q<Label>("popularity_value_label");
         instability_value_label = uiDocument_root.Q<Label>("instability_value_label");
@@ -217,6 +218,16 @@ public class MainApp : MonoBehaviour
         photoSpriteUI.sprite = EM.NextPhoto().GetSprite().sprite;
     }
 
+    public void OnButtonDown()
+    {
+        Button_Publish_Animator.SetBool("ButtonDown", true);
+    }
+    public void OnButtonUP()
+    {
+        Button_Publish_Animator.SetBool("ButtonDown", false);
+        Publish();
+
+    }
 
     void Update()
     {
