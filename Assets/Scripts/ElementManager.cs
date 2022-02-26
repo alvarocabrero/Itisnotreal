@@ -11,7 +11,6 @@ public class ElementManager
 
     public Newspaper newspaper = new Newspaper(DIFICULTY_LEVELS.MEDIUM);
 
-
     private List<Subheading> subheadings = new List<Subheading>();
     private List<Heading> headings = new List<Heading>();
     private List<Photo> photos = new List<Photo>();

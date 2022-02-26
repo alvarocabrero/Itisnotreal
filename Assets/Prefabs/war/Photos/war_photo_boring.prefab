@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7461190521996792877}
   - component: {fileID: 3174643314485474868}
   m_Layer: 0
-  m_Name: war_1
+  m_Name: war_photo_boring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

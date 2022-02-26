@@ -27,10 +27,10 @@ public static class CATEGORIES
 public static class THEME
 {
     private static string WAR = "war";
-    private static string SALSEO = "salseo";
+    //private static string SALSEO = "salseo";
     private static string HEALTH = "health";
 
-    public static string[] THEME_LIST = { WAR, SALSEO, HEALTH };
+    public static string[] THEME_LIST = { WAR, /*SALSEO,*/ HEALTH };
 
 
     public static string GetTheme(string theme)

@@ -19,6 +19,7 @@ public class MainApp : MonoBehaviour
     private Label instability_value_label;
     private Label credibility_value_label;
     //private readonly bool FAKE = true;
+    private List<string> used_themes = new List<string>();
 
     // Start is called before the first frame update
     void Start()
@@ -30,26 +31,41 @@ public class MainApp : MonoBehaviour
         //Init Element Manager
         InitElementManager();
 
-
         UpdateScores(EM.newspaper.popularity, EM.newspaper.instability, EM.newspaper.credibility);
     }
 
 
     private void InitElementManager()
     {
-        string firsChosenTheme = THEME.THEME_LIST[2];
+        ChangeTheme();
+    }
 
-        List<Heading> headings = elementStorage.GetHeadings(firsChosenTheme);
-        List<Subheading> subheadings = elementStorage.GetSubheadings(firsChosenTheme);
-        List<Photo> photos = elementStorage.GetPhotos(firsChosenTheme);
+    private void EstablishTheme(string theme)
+    {
+        used_themes.Add(theme);
+
+        List<Heading> headings = elementStorage.GetHeadings(theme);
+        List<Subheading> subheadings = elementStorage.GetSubheadings(theme);
+        List<Photo> photos = elementStorage.GetPhotos(theme);
 
         EM = new ElementManager(headings, subheadings, photos);
+
         headingSpriteUI.sprite = EM.selectedHeading.GetSprite().sprite;
         subheadingSpriteUI.sprite = EM.selectedSubheading.GetSprite().sprite;
         photoSpriteUI.sprite = EM.selectedPhoto.GetSprite().sprite;
 
     }
 
+    private void ChangeTheme()
+    {
+        foreach (string theme in THEME.THEME_LIST)
+            if (!used_themes.Contains(theme))
+            {
+                EstablishTheme(theme);
+                return;
+            }
+        Debug.LogError("No hay mas temas");
+    }
 
     private void InitUI()
     {
@@ -104,8 +120,11 @@ public class MainApp : MonoBehaviour
     {
         EM.CheckCredibility();
         UpdateScores(EM.CalculatePopularity(), EM.CalculateInstability(), EM.newspaper.credibility);
+        ChangeTheme();
         ShowReport();
     }
+
+
 
     private void ShowReport()
     {
