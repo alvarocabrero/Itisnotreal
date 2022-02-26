@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class MainApp : MonoBehaviour
@@ -11,6 +12,9 @@ public class MainApp : MonoBehaviour
 
     public static SpriteRenderer headingSpriteUI, subheadingSpriteUI, photoSpriteUI;
 
+
+
+    private VisualElement uiDocument_root;
     public List<GameObject> headingSprites, subheadingSprites, photoSprites = new List<GameObject>();
 
     public ElementStorage elementStorage;
@@ -20,6 +24,15 @@ public class MainApp : MonoBehaviour
     private Label credibility_value_label;
     //private readonly bool FAKE = true;
     private List<string> used_themes = new List<string>();
+
+
+    //Report Canvas
+    private Canvas reportCanvas;
+    private Text instability_report_value, credibility_report_value, popularity_report_value;
+    private VisualElement uiDocument_root_copy;
+
+    public UnityEngine.UIElements.Button PublishButton { get; private set; }
+
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +66,7 @@ public class MainApp : MonoBehaviour
         headingSpriteUI.sprite = EM.selectedHeading.GetSprite().sprite;
         subheadingSpriteUI.sprite = EM.selectedSubheading.GetSprite().sprite;
         photoSpriteUI.sprite = EM.selectedPhoto.GetSprite().sprite;
+        //EM.newspaper.newMatch();
 
     }
 
@@ -69,17 +83,27 @@ public class MainApp : MonoBehaviour
 
     private void InitUI()
     {
+
+        reportCanvas = GameObject.Find("ReportCanvas").GetComponent<Canvas>();
+
+        instability_report_value = GameObject.Find("instability_report_value").GetComponent<Text>();
+        credibility_report_value = GameObject.Find("credibility_report_value").GetComponent<Text>();
+        popularity_report_value = GameObject.Find("popularity_report_value").GetComponent<Text>();
+
+
+        reportCanvas.enabled = false;
+
         headingSpriteUI = GameObject.Find("Heading").GetComponent<SpriteRenderer>();
         subheadingSpriteUI = GameObject.Find("Subheading").GetComponent<SpriteRenderer>();
         photoSpriteUI = GameObject.Find("Photo").GetComponent<SpriteRenderer>();
 
-        var uiDocument = GameObject.Find("UIDocument").GetComponent<UIDocument>().rootVisualElement;
-
-        uiDocument.Q<Button>("PublishButton").clicked += delegate { Publish(); };
-
-        popularity_value_label = uiDocument.Q<Label>("popularity_value_label");
-        instability_value_label = uiDocument.Q<Label>("instability_value_label");
-        credibility_value_label = uiDocument.Q<Label>("credibility_value_label");
+        GameObject UIDocument_object = GameObject.Find("UIDocument");
+        uiDocument_root = UIDocument_object.GetComponent<UIDocument>().rootVisualElement;
+        PublishButton = uiDocument_root.Q<UnityEngine.UIElements.Button>("PublishButton");
+        PublishButton.clicked += delegate { Publish(); };
+        popularity_value_label = uiDocument_root.Q<Label>("popularity_value_label");
+        instability_value_label = uiDocument_root.Q<Label>("instability_value_label");
+        credibility_value_label = uiDocument_root.Q<Label>("credibility_value_label");
     }
 
     private void UpdateScores(int popularity, int instability, int credibility)
@@ -120,15 +144,27 @@ public class MainApp : MonoBehaviour
     {
         EM.CheckCredibility();
         UpdateScores(EM.CalculatePopularity(), EM.CalculateInstability(), EM.newspaper.credibility);
+        //@TODO sumar directamente en los contadores rollo efecto visual 
         ChangeTheme();
+        //@TODO si han pasado 2 o tres noticias o fin del juego mostrar report
         ShowReport();
     }
 
+    public void NextWeek()
+    {
+        reportCanvas.enabled = false;
+        uiDocument_root.SetEnabled(true);
 
+    }
 
     private void ShowReport()
     {
-
+        uiDocument_root.SetEnabled(false);
+        //@TODO mostrar valores report values
+        popularity_report_value.text = "+ " + EM.newspaper.popularity.ToString();
+        instability_report_value.text = "+ " + EM.newspaper.instability.ToString();
+        credibility_report_value.text = "+ " + EM.newspaper.credibility.ToString();
+        reportCanvas.enabled = true;
     }
 
     public void NextHeading()
